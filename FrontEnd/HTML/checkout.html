@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Item Page</title>
+		<title>Checkout</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
@@ -10,7 +10,7 @@
 		<header class = "row">
 			<!-- Fixed navbar -->
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-				<a class="navbar-brand" href="#">Item Page</a>
+				<a class="navbar-brand" href="#">Checkout</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -34,33 +34,14 @@
 			</nav>
 		</header>
 		<!-- Begin page content -->
-		<main role="main" class="container" id="itemPageMainContainer">
-			<div class = "row" style="margin-top: 10%;">
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+		<main role="main" class="container-fluid" id="shopping-cart-main">
+			<div class = "row justify-content-center" style="margin-top: 10%;">
+
+				<!-- Show order number -->
+				<div class="card" id="cart-full" style="width: 18rem;">
 					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
-					</div>
-				</div>
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
-					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
-					</div>
-				</div>
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
-					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
+					  <p class="card-text">Thank you for purchasing ---item---! Your order number is ---X---. The discount applied will expire on
+					  ---day coupon expires--, at which point you can use this order number to view your discount.</p>
 					</div>
 				</div>
 			</div>

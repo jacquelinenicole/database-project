@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Item Page</title>
+		<title>Shopping Cart</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
@@ -10,7 +10,7 @@
 		<header class = "row">
 			<!-- Fixed navbar -->
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-				<a class="navbar-brand" href="#">Item Page</a>
+				<a class="navbar-brand" href="#">Shopping Cart</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -22,8 +22,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="./Itempage.html">Products</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./shopping-cart.html">Shopping Cart</a>
+					<li class="nav-item active">
+						<a class="nav-link" href="./shopping-cart.html">Shopping Cart<span class="sr-only">(current)</span></a>
 					</li>
 				</ul>
 					<form class="form-inline mt-2 mt-md-0">
@@ -34,33 +34,25 @@
 			</nav>
 		</header>
 		<!-- Begin page content -->
-		<main role="main" class="container" id="itemPageMainContainer">
-			<div class = "row" style="margin-top: 10%;">
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+		<main class="container-fluid" id="shopping-cart-main">
+			<div class = "row justify-content-center" style="margin-top: 10%;">
+
+				<!-- When there is an item in the cart -->
+				<div class="card" id="cart-full" style="width: 18rem;">
+					<img class="card-img-top" src="..." alt="Pic of item">
 					<div class="card-body">
 					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
+					  <p class="card-text">$X</p>
+					  <button type="button" class="btn btn-danger">Remove</button>
+					  <a href="./checkout.html"><button type="button" class="btn btn-success">Checkout</button></a>
 					</div>
 				</div>
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+				<div class="card" id="discount-field" style="width: 18rem;">
 					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
-					</div>
-				</div>
-				<div class="card col-md-4" style="width: 18rem;">
-					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
-					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$500</p>
-					  <button type="button" class="btn btn-info">Request Discount</button>
-					  <button type="button" class="btn btn-success">Add to Cart</button>
+						<div class="form-group">
+    						<input type="text" class="form-control" id="discount-field" placeholder="Enter your discount code">
+  						</div>
+					  <button type="button" class="btn btn-info">Apply discount</button>
 					</div>
 				</div>
 			</div>
