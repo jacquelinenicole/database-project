@@ -34,23 +34,49 @@
 			</nav>
 		</header>
 		<!-- Begin page content -->
-		<main role="main" class="container-fluid" id="checkout-main">
+		<main class="container-fluid" id="checkout-main">
 			<div class = "row justify-content-center" style="margin-top: 10%;">
-
-				<!-- Show order number -->
-				<div class="card" id="cart-full" style="width: 18rem;">
-					<div class="card-body">
-					  <p class="card-text">Thank you for purchasing ---item---! Your order number is ---X---. The discount applied will expire on
-					  ---day coupon expires--, at which point you can use this order number to view your discount.</p>
+				<form>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="first-name" placeholder="First Name">
+				    	</div>
+						<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="last-name" placeholder="Last Name">
+				    	</div>
+				    	<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="email" placeholder="Email">
+				    	</div>
+				    	<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="phone" placeholder="Phone Number">
+				    	</div>
 					</div>
-				</div>
+					<div class="form-group">
+							<input type="text" class="form-control" id="address" placeholder="Full Address">
+					</div>
+
+					<div class="form-row">
+
+						<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="ccn" placeholder="Credit Card Number">
+				    	</div>
+				    	<div class="form-group col-md-3">
+							<input type="text" class="form-control" id="expiration-date" placeholder="Expiration Date">
+				    	</div>
+				    	<div class="form-group col-md-3">
+							<input type="text" class="form-control" id="security-code" placeholder="Security Code">
+				    	</div>
+				    </div>
+					<a href="./shopping-cart.html"><button class="btn btn-danger" type="button">Back</button></a>
+					<a href="./checkout-success.html"><button type="button" class="btn btn-success" id="update-policy">Checkout</button></a>
+				</form>
 			</div>
 		</main>
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script>')</script>
+		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script></script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
 	</body>
