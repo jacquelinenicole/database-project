@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>SMS: Items</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<header class = "row">
+			<!-- Fixed navbar -->
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+				<a class="navbar-brand" href="#">Items</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link active" href="./management-items.html">Items</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./management-discounts.html">Discounts</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./management-policy.html">Discount Policy</a>
+					</li>
+				</ul>
+				</div>
+			</nav>
+		</header>
+		<!-- Begin page content -->
+		<main class="container-fluid" id="management-items-main">
+			<div class = "row justify-content-center" style="margin-top: 10%;">
+				<div class="card" id="cart-full" style="width: 18rem;">
+					<div class="card-body">
+					 <div class="form-group">
+    						<input type="text" class="form-control" id="item-name-input" placeholder="Enter item name">
+  						</div>
+					  <button type="button" class="btn btn-danger">Remove Item</button>
+					  <button type="button" class="btn btn-success">Add Item</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script></script>
+		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
+		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+	</body>
+</html>
