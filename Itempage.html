@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Item Page</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<header class = "row">
+			<!-- Fixed navbar -->
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+				<a class="navbar-brand" href="#">Item Page</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="./Homepage.html">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="./Itempage.html">Products</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./shopping-cart.html">Shopping Cart</a>
+					</li>
+				</ul>
+					<form class="form-inline mt-2 mt-md-0">
+						<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form>
+				</div>
+			</nav>
+		</header>
+		<!-- Begin page content -->
+		<!-- old content
+		<main role="main" class="container" id="itemPageMainContainer">
+			<div class = "row" style="margin-top: 10%;">
+				<div class="card col-md-4" style="width: 18rem;">
+					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+					<div class="card-body">
+					  <p class="card-text">Description.</p>
+					  <p class="card-text">$500</p>
+					  <button type="button" class="btn btn-info">Request Discount</button>
+					  <button type="button" class="btn btn-success">Add to Cart</button>
+					</div>
+				</div>
+				<div class="card col-md-4" style="width: 18rem;">
+					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+					<div class="card-body">
+					  <p class="card-text">Description.</p>
+					  <p class="card-text">$500</p>
+					  <button type="button" class="btn btn-info">Request Discount</button>
+					  <button type="button" class="btn btn-success">Add to Cart</button>
+					</div>
+				</div>
+				<div class="card col-md-4" style="width: 18rem;">
+					<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+					<div class="card-body">
+					  <p class="card-text">Description.</p>
+					  <p class="card-text">$500</p>
+					  <button type="button" class="btn btn-info">Request Discount</button>
+					  <button type="button" class="btn btn-success">Add to Cart</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		-->
+		<!-- new dynamic content -->
+		<main role="main" class="container">
+			<div class="row" style="margin-top: 10%;" id="itempage_content">
+			</div>
+			<!--
+				<div class = "row" style="margin-top: 10%;">
+					<div class="card col-md-4" style="width: 18rem;">
+						<img class="card-img-top" src="..." alt="This is where a pic of item would go">
+						<div class="card-body">
+						<p class="card-text">Description.</p>
+						<p class="card-text">$500</p>
+						<button type="button" class="btn btn-info">Request Discount</button>
+						<button type="button" class="btn btn-success">Add to Cart</button>
+					</div>
+				</div>
+			-->
+				<script>
+					var i, content ="";
+					
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function ()
+					{
+						if(this.readyState == 4 && this.status == 200)
+						{
+							var info = JSON.parse(this.responseText);
+							var itemname, itemdesc, itemcost, itemimage;
+							
+							for(i in info.items)
+							{
+							itemname = info.items[i].name;
+							itemdesc = info.items[i].desc;
+							itemcost = info.items[i].cost;
+							itemimage =info.items[i].image;
+								content += `<div class="card col-md-4" style="width: 18rem;">
+												<img class="card-img-top" src="..." alt="Image name: ${itemimage}">
+													<div class="card-body">
+													<p class="card-text"><b>${itemname}</b></p>
+													<p class="card-text">${itemdesc}</p>
+													<p class="card-text">$${itemcost}</p>
+													<button type="button" class="btn btn-info">Request Discount</button>
+													<button type="button" class="btn btn-success">Add to Cart</button>
+												</div>
+											</div>`;
+							}
+							document.getElementById("itempage_content").innerHTML = content;
+						}
+					}
+					xmlhttp.open("POST", "../../api/get_items.php", true);
+					xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+					xmlhttp.send();
+					
+				</script>
+			</div>
+		</main>
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
+		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+	</body>
+</html>
