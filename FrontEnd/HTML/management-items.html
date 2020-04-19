@@ -32,13 +32,35 @@
 		<!-- Begin page content -->
 		<main class="container-fluid" id="management-items-main">
 			<div class = "row justify-content-center" style="margin-top: 10%;">
-				<div class="card" id="cart-full" style="width: 18rem;">
+				<div class="card" id="add-item" style="width: 25rem;">
 					<div class="card-body">
-					 <div class="form-group">
-    						<input type="text" class="form-control" id="item-name-input" placeholder="Enter item name">
-  						</div>
-					  <button type="button" class="btn btn-danger">Remove Item</button>
-					  <button type="button" class="btn btn-success">Add Item</button>
+						<div class="form-group">
+							<label for="input-item-name-remove">Item name</label>
+	    					<input type="text" class="form-control" id="input-item-name-remove" placeholder="Headphones">
+	  					</div>
+					  	<button type="button" class="btn btn-danger" id="remove-item-btn">Remove Item</button>
+					</div>
+				</div>
+
+				<div class="card" id="add-item" style="width: 25rem;">
+					<div class="card-body">
+						<div class="form-group">
+							<label for="input-item-name">Item name</label>
+	    					<input type="text" class="form-control" id="input-item-name" placeholder="Eraser">
+	  					</div>
+	  					<div class="form-group">
+							<label for="input-item-price">Price</label>
+	    					<input type="text" class="form-control" id="input-item-price" placeholder="1.75">
+	  					</div>
+	  					<div class="form-group">
+							<label for="input-item-description">Description</label>
+	    					<input type="text" class="form-control" id="input-item-description" placeholder="I don't make mistakes, I fix yours.">
+	  					</div>
+	  					<div class="form-group">
+							<label for="input-item-file">Picture name (include extension)</label>
+	    					<input type="text" class="form-control" id="item-price-input" placeholder="eraser.png">
+	  					</div>
+					  	<button type="button" class="btn btn-success" id="add-item-btn">Add Item</button>
 					</div>
 				</div>
 			</div>
