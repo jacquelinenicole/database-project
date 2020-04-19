@@ -38,6 +38,7 @@ create table formula (
 	fQuantityStep integer,
 	fDiscountStep float,
 	fMaxDiscount float,
+	fDiscountType varchar(1),
     index (fNum)
 );
 
