@@ -14,6 +14,7 @@ use COP4710;
 create table items (
     iNum integer auto_increment,
 	iName varchar(30) not null,
+	iDesc TEXT,
 	iCost float,
 	iImage varchar(80),
     index (iNum)
