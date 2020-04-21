@@ -2,8 +2,17 @@
 	include("./config/database.php");	
 	$response = new \stdClass();
 	$obj = json_decode(file_get_contents('php://input'), true);
-	//$database = new Database();
-	//$db = mysqli_connect('127.0.0.1:3312', 'root', 'root', 'cop4710');
+	
+	
+	//$obj format:
+	//$obj['key'] = (string) value;
+	//all keys are lowercase with '_' seperating words
+	
+	//$response format:
+	//['text'] = (string) log of what occured
+	//['transmit'] = copy of object recieved
+	//['errorlog'] = any error caught
+	//['status'] = (boolean) operation successful - true, or failed - false
 	$database = new Database();
 	$db = $database->mysqliConnection();
 	
@@ -19,8 +28,8 @@
 		{
 			$response->transmit = "default";
 			$response->text = "Triggered Post. ";
-			$response->foo = $obj['foo'];
-			$response->footype = gettype($obj['foo']);
+			//$response->foo = $obj['foo'];
+			//$response->footype = gettype($obj['foo']);
 			$response->transmit = $obj;
 			
 			switch (json_last_error()) 
@@ -63,7 +72,7 @@
 				case 'discount_report':
 					break;
 				default:
-				$response->text .= "unable to case switch.";
+					$response->text .= "unable to case switch.";
 					break;
 			}
 			
@@ -77,10 +86,23 @@
 		global $response, $db;
 		$response->text .= "Function add_item(). ";
 		
-		$itemName = intval();
-		$itemDesc = ;
-		$itemCost = floatval();
-		$itemImage = ;
+		$itemName = $transmit['item_name'];
+		$itemDesc = $transmit['item_desc'];
+		$itemCost = floatval($transmit['item_cost']);
+		$itemImage = $transmit['item_image'];
+		
+		$stmt = $db->prepare("insert into items (iname,idesc, icost, iImage) values (?,?,?,?);");
+		$stmt->bind_param("ssds", $itemName, $itemDesc, $itemCost, $itemImage);
+		if($stmt->execute())
+		{
+			$response->status = true;
+		}
+		else
+		{
+			$response->status = false;
+		}
+		
+		return;
 	}
 	
 	function del_item()
@@ -105,7 +127,14 @@
 		$response->values = array();
 		array_push($response->values, $discountTime, $discountQuantity, $discountStep,$discountMax,$discountStepType,$discountMaxType);
 		
-		$stmt->execute();
+		if($stmt->execute())
+		{
+			$response->status = true;
+		}
+		else
+		{
+			$response->status = false;
+		}
 		
 		return;
 	}
