@@ -97,7 +97,10 @@
 				return document.getElementById("input-discount-value").value;
 			}
 
-			function updatePolicy() {
+			function updatePolicy() 
+			{
+				//alert("updatePolicy() triggered");
+				//console.log("test1");
 				var discountType = getDiscountType();
 				var itemCount = getItemCount();
 				var maxDiscount = getMaxDiscount();
@@ -125,12 +128,37 @@
 				if (maxType == "C") {
 					emptyFields.push("maximum type");
 				}
-
-
+				
 				if (emptyFields.length > 0) {
 					alertMissingFields(emptyFields);
 					return;
 				}
+				
+				console.log("test");
+				var message = `{"foo": "new_discount", "discount_quantity" : "${itemCount}", "discount_step" : "${discountAmount}", "discount_max" : "${maxDiscount}", "discount_step_type" : "${discountType}", "discount_max_type" : "${maxType}"}`;
+				//alert("message: " + message);
+				//var json_obj = JSON.parse(message);  - useless do not use
+				//alert("json_obj.foo: " + json_obj.foo);
+				//console.log(json_obj);
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function()
+				{
+					if(this.readyState == 4 && this.status == 200)
+					{
+						console.log(this.responseText);
+						var other = this.responseText;
+						var response = JSON.parse(this.responseText);
+						//alert("response.text: " + response.text);
+						//alert("response: " + response);
+						//alert("Other: " + other);
+						//alert("response.foo: " + response.foo);
+					}
+				};
+				xmlhttp.open("POST", "../../api/admin.php", true);
+				xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+				xmlhttp.send(message);
+				//alert("end of updatepolicy()");
+				
 			}
 		</script>
 	</body>
