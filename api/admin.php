@@ -73,6 +73,10 @@
 					new_discount($obj);
 					break;
 				case 'discount_report':
+					$response->text .= "discount report switch. ";
+					break;
+				case 'suggest_report':
+					$response->text .= "suggest report switch. ";
 					break;
 				default:
 					$response->text .= "unable to case switch.";
@@ -162,9 +166,14 @@
 	
 	function discount_report()
 	{
+		global $response, $db;
+		$response->text .+ "function discount_report. ";
+		
 	}
 	
 	function suggest_report()
 	{
+		global $response, $db;
+		$response->text .+ "function suggest_report. ";
 	}
 ?>
