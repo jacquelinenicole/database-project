@@ -68,7 +68,7 @@
 				    	</div>
 				    </div>
 					<a href="./shopping-cart.html"><button class="btn btn-danger" type="button">Back</button></a>
-					<a href="./checkout-success.html"><button type="button" class="btn btn-success" id="update-policy">Checkout</button></a>
+					<button type="button" class="btn btn-success" onclick="checkout()">Checkout</button>
 				</form>
 			</div>
 		</main>
@@ -76,8 +76,93 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script></script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+		<script src="../JS/helper.js"></script> 
+
+		<script>
+			function getFirstName() {
+				return document.getElementById("first-name").value;
+			}
+
+			function getLastName() {
+				return document.getElementById("last-name").value;
+			}
+
+			function getEmail() {
+				return document.getElementById("email").value;
+			}
+
+			function getPhone() {
+				return document.getElementById("phone").value;
+			}
+
+			function getAddress() {
+				return document.getElementById("address").value;
+			}
+
+			function getCreditCard() {
+				return document.getElementById("ccn").value;
+			}
+
+			function getExpiration() {
+				return document.getElementById("expiration-date").value;
+			}
+
+			function getSecurityCode() {
+				return document.getElementById("security-code").value;
+			}
+
+			function checkout() {
+				var firstName = getFirstName();
+				var lastName = getLastName();
+				var email = getEmail();
+				var phone = getPhone();
+				var address = getAddress();
+				var creditCard = getCreditCard();
+				var expirationDate = getExpiration();
+				var securityCode = getSecurityCode();
+
+				var emptyFields = [];
+				if (firstName == "") {
+					emptyFields.push("first name");
+				}
+
+				if (lastName == "") {
+					emptyFields.push("last name");
+				}
+
+				if (email == "") {
+					emptyFields.push("email");
+				}
+
+				if (phone == "") {
+					emptyFields.push("phone number");
+				}
+
+				if (address == "") {
+					emptyFields.push("address");
+				}
+
+				if (creditCard == "") {
+					emptyFields.push("credit card number");
+				}
+
+				if (expirationDate == "") {
+					emptyFields.push("credit card expiration date");
+				}
+
+				if (securityCode == "") {
+					emptyFields.push("credit card security code");
+				}
+
+				if (emptyFields.length > 0) {
+					alertMissingFields(emptyFields);
+					return;
+				}
+
+				window.location = "./checkout-success.html"
+			}
+		</script>
 	</body>
 </html>
