@@ -21,7 +21,7 @@
 			echo ("Name: " . $itemname);
 			echo ("<br>");
 			//cost be $0.10 to $100
-			$itemcost = rand(1, 100);
+			$itemcost = rand(0.1, 100.00);
 			echo ("$" . $itemcost);
 			echo ("<br>");
 			//description will be 10 - 30 words
@@ -35,7 +35,7 @@
 			//echo("<br>Query: " . $query);
 			$statement = $connection->prepare("insert into items (iname, iDesc, iCost) values (?,?,?)");
 			echo("<br>prepared");
-			$statement->bind_param("ssi", $itemname, $itemdesc, $itemcost);
+			$statement->bind_param("ssd", $itemname, $itemdesc, $itemcost);
 			echo("<br>bound");
 			$statement->execute();
 			echo("<br>excuted");

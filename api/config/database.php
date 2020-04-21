@@ -7,7 +7,6 @@ class Database{
     private $username = "root";
     private $password = "root";
     public $conn;
-  
     // get the database connection
     public function getConnection(){
   
@@ -22,5 +21,13 @@ class Database{
   
         return $this->conn;
     }
+	
+	public function mysqliConnection()
+	{
+		$this->conn = null;
+		$this->conn = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+
+		return $this->conn;
+	}
 }
 ?>

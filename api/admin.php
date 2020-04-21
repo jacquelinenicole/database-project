@@ -3,8 +3,10 @@
 	$response = new \stdClass();
 	$obj = json_decode(file_get_contents('php://input'), true);
 	//$database = new Database();
-	$db = mysqli_connect('127.0.0.1:3312', 'root', 'root', 'cop4710');
-		
+	//$db = mysqli_connect('127.0.0.1:3312', 'root', 'root', 'cop4710');
+	$database = new Database();
+	$db = $database->mysqliConnection();
+	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 
@@ -48,22 +50,18 @@
 			
 			switch($obj['foo'])
 			{
-				/*
+				
 				case "add_item":
+					add_item($obj);
 					break;
 				case 'del_item':
 					break;
-					*/
 				case 'new_discount':
 					$response->text .= "Case switch. ";
 					new_discount($obj);
 					break;
-				/*
 				case 'discount_report':
 					break;
-				case 'add_item':
-					break;
-					*/
 				default:
 				$response->text .= "unable to case switch.";
 					break;
@@ -76,7 +74,13 @@
 	
 	function add_item($transmit)
 	{
+		global $response, $db;
+		$response->text .= "Function add_item(). ";
 		
+		$itemName = intval();
+		$itemDesc = ;
+		$itemCost = floatval();
+		$itemImage = ;
 	}
 	
 	function del_item()

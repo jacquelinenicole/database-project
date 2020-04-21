@@ -1,7 +1,10 @@
 <?php
+	include("./config/database.php");
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-		$conn = mysqli_connect('127.0.0.1:3312', 'root', 'root', 'cop4710');
+		$database = new Database();
+		$conn = $database->mysqliConnection();
+		//$conn = mysqli_connect('127.0.0.1:3312', 'root', 'root', 'cop4710');
 		$response = new \stdClass();
 		
 		if(mysqli_connect_errno($conn))
