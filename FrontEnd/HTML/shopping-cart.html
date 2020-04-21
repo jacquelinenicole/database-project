@@ -41,18 +41,18 @@
 				<div class="card" id="cart-full" style="width: 18rem;">
 					<img class="card-img-top" src="..." alt="Pic of item">
 					<div class="card-body">
-					  <p class="card-text">Description.</p>
-					  <p class="card-text">$X</p>
-					  <button type="button" class="btn btn-danger">Remove</button>
-					  <a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
+					 	<p class="card-text">Description.</p>
+					 	<p class="card-text">$X</p>
+					 	<button type="button" class="btn btn-danger" onclick="removeItem()">Remove</button>
+					 	<a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
 					</div>
 				</div>
-				<div class="card" id="discount-field" style="width: 18rem;">
+				<div class="card" id="discount" style="width: 18rem;">
 					<div class="card-body">
 						<div class="form-group">
     						<input type="text" class="form-control" id="discount-field" placeholder="Enter your discount code">
   						</div>
-					  <button type="button" class="btn btn-info">Apply discount</button>
+					  <button type="button" class="btn btn-info" onclick="applyDiscount()">Apply discount</button>
 					</div>
 				</div>
 			</div>
@@ -61,8 +61,32 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script></script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+		<script src="../JS/helper.js"></script> 
+
+		<script>
+			function removeItem() {
+
+			}
+
+			function getDiscountCode() {
+				return document.getElementById("discount-field").value;
+			}
+
+			function applyDiscount() {
+				var discountCode = getDiscountCode();
+
+				var emptyFields = [];
+				if (discountCode == "") {
+					emptyFields.push("discount code");
+				}
+
+				if (emptyFields.length > 0) {
+					alertMissingFields(emptyFields);
+					return;
+				}
+			}
+		</script>
 	</body>
 </html>

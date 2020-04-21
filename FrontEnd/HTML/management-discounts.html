@@ -37,7 +37,7 @@
 						<div class="form-group">
     						<input type="text" class="form-control" id="discount-field" placeholder="Enter expired discount code">
   						</div>
-					  <button type="button" class="btn btn-info">View discounted orders</button>
+					  <button type="button" class="btn btn-info" onclick="viewDiscountedOrders()">View discounted orders</button>
 					</div>
 				</div>
 
@@ -46,7 +46,7 @@
 						<div class="form-group">
     						<input type="text" class="form-control" id="item-field" placeholder="Enter item name">
   						</div>
-					  <button type="button" class="btn btn-success">Add discount</button>
+					  <button type="button" class="btn btn-success" onclick="addDiscount()">Add discount</button>
 					</div>
 				</div>
 			</div>
@@ -55,8 +55,46 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script></script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+		<script src="../JS/helper.js"></script> 
+
+		<script>
+			function getDiscountCode() {
+				return document.getElementById("discount-field").value;
+			}
+
+			function getItemName() {
+				return document.getElementById("item-field").value;
+			}
+
+			function viewDiscountedOrders() {
+				var discountCode = getDiscountCode();
+
+				var emptyFields = [];
+				if (discountCode == "") {
+					emptyFields.push("discount code");
+				}
+
+				if (emptyFields.length > 0) {
+					alertMissingFields(emptyFields);
+					return;
+				}
+			}
+
+			function addDiscount() {
+				var name = getItemName();
+
+				var emptyFields = [];
+				if (name == "") {
+					emptyFields.push("item name");
+				}
+
+				if (emptyFields.length > 0) {
+					alertMissingFields(emptyFields);
+					return;
+				}
+			}
+		</script>
 	</body>
 </html>
