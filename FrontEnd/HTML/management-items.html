@@ -122,8 +122,6 @@
 					return;
 				}
 				
-						<!-- JavaScript Functions -->
-				
 				console.log("additem() activated");
 				var message = `{"foo" : "add_item", "item_name" : "${name}", "item_desc" : "${Description}", "item_cost" : "${price}", "item_image" : "${picName}"}`;
 				
@@ -154,6 +152,21 @@
 					alertMissingFields(emptyFields);
 					return;
 				}
+				
+				console.log("removeItem() activated");
+				var message = `{"foo" : "del_item", "item_name" : "${name}"}`;
+				
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function()
+				{
+					if(this.readyState == 4 && this.status == 200)
+					{
+						console.log(this.responseText);
+					}
+				};
+				xmlhttp.open("POST", "../../api/admin.php", true);
+				xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+				xmlhttp.send(message);
 			}
 		</script>
 	</body>

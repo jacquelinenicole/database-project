@@ -61,12 +61,15 @@
 			{
 				
 				case "add_item":
+					$response->text .= "add item switch";
 					add_item($obj);
 					break;
 				case 'del_item':
+					$response->text .= "del item switch. ";
+					del_item($obj);
 					break;
 				case 'new_discount':
-					$response->text .= "Case switch. ";
+					$response->text .= "new discount switch. ";
 					new_discount($obj);
 					break;
 				case 'discount_report':
@@ -105,8 +108,26 @@
 		return;
 	}
 	
-	function del_item()
+	function del_item($transmit)
 	{
+		global $response, $db;
+		$response->text .= "Function del_item(). ";
+		
+		$itemName = $transmit['item_name'];
+		
+		$stmt = $db->prepare("DELETE from items where iname = ?");
+		$stmt->bind_param("s", $itemName);
+		
+		if($stmt->execute())
+		{
+			$response->status = true;
+		}
+		else
+		{
+			$response->status = false;
+		}
+		
+		return;
 	}
 	
 	function new_discount($transmit)
