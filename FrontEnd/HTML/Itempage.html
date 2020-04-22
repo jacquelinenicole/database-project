@@ -94,6 +94,8 @@
 							var info = JSON.parse(this.responseText);
 							var itemname, itemdesc, itemcost, itemimage;
 							
+							//console.log(this.responseText);
+							console.log(info);
 							for(i in info.items)
 							{
 							itemname = info.items[i].name;
