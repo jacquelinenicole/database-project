@@ -70,7 +70,7 @@ function displayAllProducts(ContentPage)
 									<p class="card-text">${itemdesc}</p>
 									<p class="card-text">$${itemcost}</p>
 									<button type="button" class="btn btn-info">Request Discount</button>
-									<button type="button" class="btn btn-success">Add to Cart</button>
+									<button type="button" class="btn btn-success" onclick="">Add to Cart</button>
 								</div>
 							</div>`;
 			}
@@ -84,4 +84,9 @@ function displayAllProducts(ContentPage)
 	xmlhttp.send();
 	
 	return;
+}
+
+function addtoCart($itemid, $itemquantity)
+{
+	
 }

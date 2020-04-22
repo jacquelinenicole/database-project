@@ -4,6 +4,7 @@
 	$obj = json_decode(file_get_contents('php://input'), true);
 	
 	
+	
 	//$obj format:
 	//$obj['key'] = (string) value;
 	//all keys are lowercase with '_' seperating words
@@ -15,6 +16,7 @@
 	//['status'] = (boolean) operation successful - true, or failed - false
 	$database = new Database();
 	$db = $database->mysqliConnection();
+	$database->createSession();
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
@@ -173,12 +175,12 @@
 	function discount_report($transmit)
 	{
 		global $response, $db;
-		$response->text .+ "function discount_report. ";
+		$response->text .= "function discount_report. ";
 		
-		$discountCode = $transmit['discound_code'];
+		$discountCode = $transmit['discount_code'];
 		
 		$stmt = $db->prepare("select * from orders where oDiscount_id =( select dNum from discount where dCode = ?)");
-		$stmt->bind_param("s", $discound_code);
+		$stmt->bind_param("s", $discountCode);
 		
 		if($stmt->execute())
 		{
@@ -195,13 +197,19 @@
 				while($stmt->fetch())
 				{
 					$response->orders[$i] = new \stdClass();
+					//customer info
 					$response->orders[$i]->CusName = $CusName;
 					$response->orders[$i]->CusPhone = $CusPhone;
 					$response->orders[$i]->CusEmail = $CusEmail;
 					$response->orders[$i]->itemId = $item_id;
 					//get item info here
-					//TODO
+					$itemResults = get_item_info($item_id);
+					$response->orders[$i]->itemName = $itemResults[0];
+					$response->orders[$i]->itemPrice = $itemResults[1];
 					$response->orders[$i]->quantity = $quantity;
+					//discount info here
+					$discountResults = get_discount_info($discount_id);
+					
 					$i++;
 				}
 			}
@@ -211,7 +219,7 @@
 		{
 			$response->status = false;
 		}
-		
+
 		return;
 		
 	}
@@ -220,5 +228,64 @@
 	{
 		global $response, $db;
 		$response->text .+ "function suggest_report. ";
+	}
+	
+	function get_item_info($itemId)
+	{
+		global $db;
+		$ret_info = array();
+		
+		$stmt = $db->prepare("select * from items where inum = ?");
+		$stmt->bind_param("i", $itemId);
+		if($stmt->execute())
+		{
+			$stmt->bind_result($inum, $iname, $idesc, $icost, $iimage);
+			$stmt->store_result();
+			
+			if($stmt->num_rows() > 0)
+			{
+				while($stmt->fetch())
+				{
+					array_push($ret_info, $iname, $icost);
+				}
+			}
+		}
+		else
+		{
+			array_push($ret_info, "ERROR:No Item", 0);
+		}
+		
+		//array_push($ret_info, "testname", 13.37);
+		
+		return $ret_info;
+		
+	}
+	
+	function get_discount_info($discountId)
+	{
+		global $db;
+		$ret_info = array();
+		
+		$stmt = $db->prepare("select * from formula where fnum = (select dFormula_id from discount where dnum = ?);");
+		$stmt->bind_param("i", $discountId);
+		if($stmt->execute())
+		{
+			$stmt->bind_result($fnum, $ftimeleft, $fquantitystep, $fdiscountstep, $fmaxdiscount $fsteptype, $fmaxtype);
+			$stmt->store_result();
+			
+			if($stmt->num_rows() > 0 )
+			{
+				while($stmt->fetch())
+				{
+					array_push($ret_info, $
+				}
+			}
+		}
+		else
+		{
+			array_push($ret_info, "No Discount");
+		}
+		
+		return $ret_info;
 	}
 ?>

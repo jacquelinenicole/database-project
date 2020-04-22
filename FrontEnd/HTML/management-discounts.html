@@ -58,6 +58,24 @@
 				</div>
 			</div>
 		</main>
+		<br><br>
+		<main class="container-fluid" id="report-content">
+			<center><h5 class="card-title">Discounted Orders:</h5></center>
+			<div class = "row justify-content-center">
+				<div class="card" style="width: 54rem;">
+					<div class="card-body">
+					First order 
+					</div>
+				</div>
+			</div>
+			<div class = "row justify-content-center">
+				<div class="card" style="width: 54rem;">
+					<div class="card-body">
+					Second Order
+					</div>
+				</div>
+			</div>
+		</main>
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
@@ -88,6 +106,80 @@
 					alertMissingFields(emptyFields);
 					return;
 				}
+				
+				//
+				var i, content ='<center><h5 class="card-title">Discounted Orders:</h5></center>';
+				var xmlhttp = new XMLHttpRequest();
+				var message = `{"foo" : "discount_report", "discount_code" : "dXc17sP"}`;
+				
+				xmlhttp.onreadystatechange = function ()
+				{
+					if(this.readyState == 4 && this.status == 200)
+					{
+						console.log(this.responseText);
+						var info = JSON.parse(this.responseText);
+						console.log(info);
+						var cusName, cusPhone, cusEmail, itemId, itemQuantity;
+						for(i in info.orders)
+						{
+						cusName = info.orders[i].CusName;
+						cusPhone = info.orders[i].CusPhone;
+						cusEmail = info.orders[i].CusEmail;
+						itemId = info.orders[i].itemId;
+						itemQuantity = info.orders[i].quantity;
+						itemName = info.orders[i].itemName;
+						var intPrice = info.orders[i].itemPrice;
+						itemPrice = "$" + intPrice.toFixed(2);
+							content += `<div class = "row justify-content-center">
+											<div class="card" style="width: 54rem;">
+												<div class="card-body">
+													<div class = "row justify-content-left">
+														<div class="card" style="width: 18rem;">
+															<div class="card-body">
+																Customer Name: ${cusName}
+																<br>
+																Customer Phone #: ${cusPhone}
+																<br>
+																Customer Email: ${cusEmail}
+															</div>
+														</div>
+														<div class="card" style="width: 18rem;">
+															<div class="card-body">
+																Item Id: ${itemId}
+																<br>
+																Item Name: ${itemName}
+																<br>
+																Item Price: ${itemPrice}
+																<br>
+																Quantity: ${itemQuantity}
+															</div>
+														</div>
+														<div class="card" style="width: 17rem;">
+															<div class="card-body">
+																Discount stats
+															</div>
+														</div>
+													</div>
+													<div class = "row justify-content-center">
+														<div class="card" style="width: 53rem;">
+																<div class="card-body">
+																	Order totals
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>`;
+						}
+						document.getElementById('report-content').innerHTML = content;
+						
+					}
+				}
+				xmlhttp.open("POST", "../../api/admin.php", true);
+				xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+				xmlhttp.send(message);
+				
 			}
 
 			function addDiscount() {
@@ -102,11 +194,14 @@
 					alertMissingFields(emptyFields);
 					return;
 				}
+				
+				
 			}
 
 			function viewRequests() {
 
 			}
+			
 		</script>
 	</body>
 </html>
