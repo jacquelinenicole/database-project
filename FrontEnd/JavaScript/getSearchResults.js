@@ -60,7 +60,7 @@ function displayAllProducts(ContentPage)
 			var itemname, itemdesc, itemcost, itemimage;
 			for(i in info.items)
             {
-                itemid = info.items[i].id;
+            itemid = info.items[i].id;
 			itemname = info.items[i].name;
 			itemdesc = info.items[i].desc;
 			itemcost = info.items[i].cost;
@@ -90,6 +90,7 @@ function displayAllProducts(ContentPage)
 
 function gen_code(itemid)
 {
+	console.log("gen_code() activated for item: " + itemid);
 	var message = `{"itemid" : "${itemid}"}`;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function ()
