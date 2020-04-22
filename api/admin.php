@@ -74,9 +74,11 @@
 					break;
 				case 'discount_report':
 					$response->text .= "discount report switch. ";
+					discount_report($obj);
 					break;
 				case 'suggest_report':
 					$response->text .= "suggest report switch. ";
+					suggest_report($obj);
 					break;
 				default:
 					$response->text .= "unable to case switch.";
@@ -164,14 +166,52 @@
 		return;
 	}
 	
-	function discount_report()
+	function discount_report($transmit)
 	{
 		global $response, $db;
 		$response->text .+ "function discount_report. ";
 		
+		$discountCode = $transmit['discound_code'];
+		
+		$stmt = $db->prepare("select * from orders where oDiscount_id =( select dNum from discount where dCode = ?)");
+		$stmt->bind_param("s", $discound_code);
+		
+		if($stmt->execute())
+		{
+			$response->status = true;
+			
+			$stmt->bind_result($order_id, $discount_id, $item_id, $quantity, $CusName, $CusPhone, $CusEmail);
+			$stmt->store_result();
+			
+			$response->numOrders = $stmt->num_rows();
+			$response->orders = array(array());
+			if($stmt->num_rows() > 0)
+			{
+				$i = 0
+				while($stmt->fetch())
+				{
+					$response->orders[$i] = new \stdClass();
+					$response->orders[$i]->CusName = $CusName;
+					$response->orders[$i]->CusPhone = $CusPhone;
+					$response->orders[$i]->CusEmail = $CusEmail;
+					$response->orders[$i]->itemId = $item_id;
+					//get item info here
+					//TODO
+					$response->orders[$i]->quantity = $quantity;
+					$i++;
+				}
+			}
+		}
+		else
+		{
+			$response->status = false;
+		}
+		
+		return;
+		
 	}
 	
-	function suggest_report()
+	function suggest_report($transmit)
 	{
 		global $response, $db;
 		$response->text .+ "function suggest_report. ";
