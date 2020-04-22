@@ -1,0 +1,55 @@
+<?php
+	include("./config/database.php");	
+	$response = new \stdClass();
+	$obj = json_decode(file_get_contents('php://input'), true);
+	$database = new Database();
+	$db = $database->mysqliConnection();
+	//$database->createSession();
+	start_session();
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST")
+	{
+		if(mysqli_connect_errno($db))
+		{
+			$repsonse->text = "Error with DB connect";
+		}
+		else
+		{
+			$response->transmit = $obj;
+			
+			//json error catch
+			switch (json_last_error()) 
+			{
+				case JSON_ERROR_NONE:
+					$response->errorlog = ' - No errors';
+				break;
+				case JSON_ERROR_DEPTH:
+					$response->errorlog = ' - Maximum stack depth exceeded';
+				break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$response->errorlog = ' - Underflow or the modes mismatch';
+				break;
+				case JSON_ERROR_CTRL_CHAR:
+					$response->errorlog = ' - Unexpected control character found';
+				break;
+				case JSON_ERROR_SYNTAX:
+					$response->errorlog = ' - Syntax error, malformed JSON';
+				break;
+				case JSON_ERROR_UTF8:
+					$response->errorlog = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+				break;
+				default:
+					$response->errorlog = ' - Unknown error';
+				break;
+			}
+			
+			//get itemId
+			//get today's date
+			
+			
+		}
+	}
+	
+	echo json_encode($response);
+	exit();
+?>

@@ -110,7 +110,8 @@
 				//
 				var i, content ='<center><h5 class="card-title">Discounted Orders:</h5></center>';
 				var xmlhttp = new XMLHttpRequest();
-				var message = `{"foo" : "discount_report", "discount_code" : "dXc17sP"}`;
+				var discountCode = getDiscountCode();
+				var message = `{"foo" : "discount_report", "discount_code" : "${discountCode}"}`;
 				
 				xmlhttp.onreadystatechange = function ()
 				{
@@ -119,78 +120,97 @@
 						console.log(this.responseText);
 						var info = JSON.parse(this.responseText);
 						console.log(info);
-						var cusName, cusPhone, cusEmail, itemId, itemQuantity;
-						for(i in info.orders)
-						{
-						cusName = info.orders[i].CusName;
-						cusPhone = info.orders[i].CusPhone;
-						cusEmail = info.orders[i].CusEmail;
-						itemId = info.orders[i].itemId;
-						itemQuantity = info.orders[i].quantity;
-						itemName = info.orders[i].itemName;
-						var intPrice = info.orders[i].itemPrice;
-						itemPrice = "$" + intPrice.toFixed(2);
-						discountID = info.orders[i].discountId;
-						discountQuantity = info.orders[i].discountQs;
-						discountStep = info.orders[i].discountDs;
-						discountMax = info.orders[i].discountMd;
-						discountSType = info.orders[i].discountsT;
-						discountMType= info.orders[i].discountmT;
+						var cusName, cusPhone, cusEmail, itemId, itemQuantity, sumQuantity = 0, intPrice;
 						
-						orderTotals = calculateTotal(itemPrice, itemQuantity, discountStep, discountQuantity, discountMax, discountSType, discountMType);
-							content += `<div class = "row justify-content-center">
-											<div class="card" style="width: 54rem;">
-												<div class="card-body">
-													<div class = "row justify-content-left">
-														<div class="card" style="width: 18rem;">
-															<div class="card-body">
-																Customer Name: ${cusName}
-																<br>
-																Customer Phone #: ${cusPhone}
-																<br>
-																Customer Email: ${cusEmail}
+						orderArr = [];
+						if(info.Orders > 0)
+						{
+							for(i in info.orders)
+							{
+								itemQuantity = info.orders[i].quantity;
+								sumQuantity += parseInt(itemQuantity);
+							}
+							for(i in info.orders)
+							{
+								cusName = info.orders[i].CusName;
+								cusPhone = info.orders[i].CusPhone;
+								cusEmail = info.orders[i].CusEmail;
+								itemId = info.orders[i].itemId;
+								itemQuantity = info.orders[i].quantity;
+								itemName = info.orders[i].itemName;
+								intPrice = info.orders[i].itemPrice;
+								itemPrice = "$" + intPrice.toFixed(2);
+								discountID = info.orders[i].discountId;
+								discountQuantity = info.orders[i].discountQs;
+								discountStep = info.orders[i].discountDs;
+								discountMax = info.orders[i].discountMd;
+								discountSType = info.orders[i].discountsT;
+								discountMType= info.orders[i].discountmT;
+								
+								orderTotals = calculateTotal(intPrice, itemQuantity, sumQuantity, discountStep, discountQuantity, discountMax, discountSType, discountMType);
+									content += `<div class = "row justify-content-center">
+													<div class="card" style="width: 54rem;">
+														<div class="card-body">
+															<div class = "row justify-content-left">
+																<div class="card" style="width: 18rem;">
+																	<div class="card-body">
+																		Customer Name: ${cusName}
+																		<br>
+																		Customer Phone #: ${cusPhone}
+																		<br>
+																		Customer Email: ${cusEmail}
+																	</div>
+																</div>
+																<div class="card" style="width: 18rem;">
+																	<div class="card-body">
+																		Item Id: ${itemId}
+																		<br>
+																		Item Name: ${itemName}
+																		<br>
+																		Item Price: ${itemPrice}
+																		<br>
+																		Quantity: ${itemQuantity}
+																	</div>
+																</div>
+																<div class="card" style="width: 17rem;">
+																	<div class="card-body">
+																		Discount stats
+																		<br>
+																		Discount ID: ${discountID}
+																		<br>
+																		Discount Quantity: ${discountQuantity}
+																		<br>
+																		Discount Step: ${discountStep} ${discountSType}
+																		<br>
+																		Discount Max:  ${discountMax} ${discountMType}
+																	</div>
+																</div>
 															</div>
-														</div>
-														<div class="card" style="width: 18rem;">
-															<div class="card-body">
-																Item Id: ${itemId}
-																<br>
-																Item Name: ${itemName}
-																<br>
-																Item Price: ${itemPrice}
-																<br>
-																Quantity: ${itemQuantity}
-															</div>
-														</div>
-														<div class="card" style="width: 17rem;">
-															<div class="card-body">
-																Discount stats
-																<br>
-																Discount ID: ${discountID}
-																<br>
-																Discount Quantity: ${discountQuantity}
-																<br>
-																Discount Step: ${discountStep} ${discountSType}
-																<br>
-																Discount Max:  ${discountMax} ${discountMType}
-															</div>
-														</div>
-													</div>
-													<div class = "row justify-content-center">
-														<div class="card" style="width: 53rem;">
-																<div class="card-body">
-																	Order totals: <br>
-																	${orderTotals}
+															<div class = "row justify-content-center">
+																<div class="card" style="width: 53rem;">
+																		<div class="card-body" id ="Order${i}">
+																		Order totals: <br>
+																		${orderTotals}
+																		</div>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											</div>
-										</div>`;
+												</div>`;
+							}
+							document.getElementById('report-content').innerHTML = content;
 						}
-						document.getElementById('report-content').innerHTML = content;
-						
+						else
+						{
+							document.getElementById('report-content').innerHTML = `<div class = "row justify-content-center">
+																						<div class="card" style="width: 54rem;">
+																							<div class="card-body">
+																								No Orders found
+																							</div>
+																						</div>
+																					</div>`;
+						}
 					}
 				}
 				xmlhttp.open("POST", "../../api/admin.php", true);
@@ -219,13 +239,13 @@
 
 			}
 			
-			function calculateTotal(itemCost, itemQuantity, discountStep, discountQuantity, discountMax, discountType, maxType)
+			function calculateTotal(itemCost, itemQuantity, sumQuantity, discountStep, discountQuantity, discountMax, discountType, maxType)
 			{
 				var ret_message = "";
 				
 				var floatCost = 0.00, intQuantity = 0, floatDstep = 0.00, intDquantity = 0, floatDmax = 0.00, subcost = 0.00;
 				//making sure variables are in integer or float formats
-				cost = Number(itemCost.replace(/[^0-9.-]+/g,""));
+				cost = itemCost;
 				quantity = parseInt(itemQuantity);
 				discountS = parseFloat(discountStep) / 100;
 				discountQ = parseInt(discountQuantity);
@@ -236,19 +256,24 @@
 				ret_message += "SubTotal: $" + subcost.toFixed(2) + "<br>";
 				
 				//discount Steps = amount / discount quantity
-				var dStepped = quantity / discountQ;
+				var dStepped = sumQuantity / discountQ;
 				
 				//if $
 				//Amount discount = multipler * discountStep
 				if(discountType == '$')
 				{
 					var dAmount = dStepped * discountS;
+					if(dAmount > discountMax)
+						dAmount = discountMax;
 				}
 				//if %
 				//Amount discounted = Totalcost * (multiplier * discountStep)
 				else
 				{
 					var dAmount = (subcost * (dStepped * discountS));
+					var maxAmount = (subcost  * (discountMax/100));
+					if(dAmount > maxAmount)
+						dAmount = maxAmount;
 				}
 				ret_message += "Discounted amount: $" + dAmount.toFixed(2) + "<br>";
 				
