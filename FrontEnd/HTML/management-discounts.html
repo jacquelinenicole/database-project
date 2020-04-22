@@ -130,6 +130,14 @@
 						itemName = info.orders[i].itemName;
 						var intPrice = info.orders[i].itemPrice;
 						itemPrice = "$" + intPrice.toFixed(2);
+						discountID = info.orders[i].discountId;
+						discountQuantity = info.orders[i].discountQs;
+						discountStep = info.orders[i].discountDs;
+						discountMax = info.orders[i].discountMd;
+						discountSType = info.orders[i].discountsT;
+						discountMType= info.orders[i].discountmT;
+						
+						orderTotals = calculateTotal(itemPrice, itemQuantity, discountStep, discountQuantity, discountMax, discountSType, discountMType);
 							content += `<div class = "row justify-content-center">
 											<div class="card" style="width: 54rem;">
 												<div class="card-body">
@@ -157,13 +165,22 @@
 														<div class="card" style="width: 17rem;">
 															<div class="card-body">
 																Discount stats
+																<br>
+																Discount ID: ${discountID}
+																<br>
+																Discount Quantity: ${discountQuantity}
+																<br>
+																Discount Step: ${discountStep} ${discountSType}
+																<br>
+																Discount Max:  ${discountMax} ${discountMType}
 															</div>
 														</div>
 													</div>
 													<div class = "row justify-content-center">
 														<div class="card" style="width: 53rem;">
 																<div class="card-body">
-																	Order totals
+																	Order totals: <br>
+																	${orderTotals}
 																</div>
 															</div>
 														</div>
@@ -200,6 +217,47 @@
 
 			function viewRequests() {
 
+			}
+			
+			function calculateTotal(itemCost, itemQuantity, discountStep, discountQuantity, discountMax, discountType, maxType)
+			{
+				var ret_message = "";
+				
+				var floatCost = 0.00, intQuantity = 0, floatDstep = 0.00, intDquantity = 0, floatDmax = 0.00, subcost = 0.00;
+				//making sure variables are in integer or float formats
+				cost = Number(itemCost.replace(/[^0-9.-]+/g,""));
+				quantity = parseInt(itemQuantity);
+				discountS = parseFloat(discountStep) / 100;
+				discountQ = parseInt(discountQuantity);
+				discountMax = parseFloat(discountMax);
+				
+				//totalcost = Price * amount
+				subcost = cost * quantity;
+				ret_message += "SubTotal: $" + subcost.toFixed(2) + "<br>";
+				
+				//discount Steps = amount / discount quantity
+				var dStepped = quantity / discountQ;
+				
+				//if $
+				//Amount discount = multipler * discountStep
+				if(discountType == '$')
+				{
+					var dAmount = dStepped * discountS;
+				}
+				//if %
+				//Amount discounted = Totalcost * (multiplier * discountStep)
+				else
+				{
+					var dAmount = (subcost * (dStepped * discountS));
+				}
+				ret_message += "Discounted amount: $" + dAmount.toFixed(2) + "<br>";
+				
+				//Order total = subtotal - discounted Amount
+				var totalcost = subcost - dAmount;
+				if(totalcost < 0)
+					totalcost = 0;
+				ret_message += "Order Total: $" + totalcost.toFixed(2) + "<br>";
+				return ret_message;
 			}
 			
 		</script>

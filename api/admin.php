@@ -20,8 +20,6 @@
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-
-		
 		if(mysqli_connect_errno($db))
 		{
 			$repsonse->text = "Error with DB connect";
@@ -209,6 +207,12 @@
 					$response->orders[$i]->quantity = $quantity;
 					//discount info here
 					$discountResults = get_discount_info($discount_id);
+					$response->orders[$i]->discountId = $discount_id;
+					$response->orders[$i]->discountQs = $discountResults[0];
+					$response->orders[$i]->discountDs = $discountResults[1];
+					$response->orders[$i]->discountMd = $discountResults[2];
+					$response->orders[$i]->discountsT = $discountResults[3];
+					$response->orders[$i]->discountmT = $discountResults[4];
 					
 					$i++;
 				}
@@ -270,14 +274,14 @@
 		$stmt->bind_param("i", $discountId);
 		if($stmt->execute())
 		{
-			$stmt->bind_result($fnum, $ftimeleft, $fquantitystep, $fdiscountstep, $fmaxdiscount $fsteptype, $fmaxtype);
+			$stmt->bind_result($fnum, $ftimeleft, $fquantitystep, $fdiscountstep, $fmaxdiscount, $fsteptype, $fmaxtype);
 			$stmt->store_result();
 			
 			if($stmt->num_rows() > 0 )
 			{
 				while($stmt->fetch())
 				{
-					array_push($ret_info, $
+					array_push($ret_info, $fquantitystep, $fdiscountstep, $fmaxdiscount, $fsteptype, $fmaxtype);
 				}
 			}
 		}
