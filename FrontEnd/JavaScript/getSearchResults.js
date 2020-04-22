@@ -2,6 +2,14 @@
 function getSearchResults(searchTextId, mainContentPage) {
 	var i, content ="<div style='margin-top: 10%;'>";
 	var xmlhttp = new XMLHttpRequest();
+	console.log(searchTextId);
+	console.log(mainContentPage);
+	if((document.getElementById(searchTextId).value == "") && (mainContentPage == 'itempage_content'))
+	{
+		//console.log("search is empty and we are on the item page");
+		displayAllProducts(mainContentPage);
+		return;
+	}
 	xmlhttp.onreadystatechange = function ()
 	{
 		if(this.readyState == 4 && this.status == 200)
@@ -74,4 +82,6 @@ function displayAllProducts(ContentPage)
 	xmlhttp.open("POST", "../../api/get_items.php", true);
 	xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
 	xmlhttp.send();
+	
+	return;
 }
