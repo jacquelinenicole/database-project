@@ -148,6 +148,9 @@
 					if(this.readyState == 4 && this.status == 200)
 					{
 						console.log(this.responseText);
+						var confirmation = JSON.parse(this.responseText);
+						if(confirmation.status)
+							alert("Successfully created discount formula");
 					}
 				};
 				xmlhttp.open("POST", "../../api/admin.php", true);

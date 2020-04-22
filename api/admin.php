@@ -102,9 +102,11 @@
 		
 		$stmt = $db->prepare("insert into items (iname,idesc, icost, iImage) values (?,?,?,?);");
 		$stmt->bind_param("ssds", $itemName, $itemDesc, $itemCost, $itemImage);
+
 		if($stmt->execute())
 		{
 			$response->status = true;
+			http_response_code(200);
 		}
 		else
 		{
@@ -124,9 +126,10 @@
 		$stmt = $db->prepare("DELETE from items where iname = ?");
 		$stmt->bind_param("s", $itemName);
 		
-		if($stmt->execute())
+		if($stmt->execute() && ($stmt->affected_rows > 0))
 		{
 			$response->status = true;
+			http_response_code(200);
 		}
 		else
 		{
@@ -157,6 +160,7 @@
 		if($stmt->execute())
 		{
 			$response->status = true;
+			http_response_code(200);
 		}
 		else
 		{
@@ -187,7 +191,7 @@
 			$response->orders = array(array());
 			if($stmt->num_rows() > 0)
 			{
-				$i = 0
+				$i = 0;
 				while($stmt->fetch())
 				{
 					$response->orders[$i] = new \stdClass();
@@ -201,6 +205,7 @@
 					$i++;
 				}
 			}
+			http_response_code(200);
 		}
 		else
 		{
