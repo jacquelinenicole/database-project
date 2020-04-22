@@ -3,7 +3,7 @@
 	include("./config/database.php");	
 	$response = new \stdClass();
 	$obj = json_decode(file_get_contents('php://input'), true);
-	
+
 	//$response format:
 	//['text'] = (string) log of what occured
 	//['transmit'] = copy of object recieved
@@ -60,6 +60,10 @@
 					$response->text .= "add item switch";
 					add_item($obj);
 					break;
+				case "getCart":
+					$response->text .= "get cart switch";
+					get_cart($obj);
+					break;
 				default:
 					$response->text .= "unable to case switch.";
 					break;
@@ -101,4 +105,50 @@
 
 	}
 
+	function get_cart($transmit)
+	{
+		global $db, $response;
+
+		$response->sessionSuccess = session_start();
+		$response->test =isset($_SESSION['cart']);
+		$empty = isset($_SESSION['cart']) ? false : true;
+		//$response->cart = $_SESSION['cart'];
+		if ($empty)
+		{
+			$response->emptyCart = true;
+			return;
+		}
+		else {
+			$response->emptyCart = false;
+			$response->items = array(array());
+			$j = 0;
+			for ($i = 0; $i < count($_SESSION['cart']); $i++ )
+			{
+				$stmt = $db->prepare("Select * from items i where i.iNum = (?);");
+				$stmt->bind_param("i", $_SESSION['cart'][$i]['id']);
+				$stmt->execute();
+			
+				$stmt->bind_result($id, $name, $desc, $cost, $image);
+				$stmt->store_result();
+			
+				if($stmt->num_rows() > 0)
+				{
+					
+					
+					
+					$stmt->fetch();
+					$response->items[$j] = new \stdClass();
+					$response->items[$j]->id = $id;
+					$response->items[$j]->name = $name;
+					$response->items[$j]->desc = $desc;
+					$response->items[$j]->cost = $cost;
+					$response->items[$j]->image = $image;
+					$j++;
+					
+				}
+			}
+			
+			return;
+		}
+	}
 ?>
