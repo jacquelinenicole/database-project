@@ -26,7 +26,7 @@ function getSearchResults(searchTextId, mainContentPage) {
 					itemcost = info.items[i].cost;
 					itemimage =info.items[i].image;
 						content += `<div class="card col-md-4" style="width: 18rem;">
-										<img class="card-img-top" src="..." alt="Image name: ${itemimage}">
+										<img class="card-img-top" src="images/${itemimage}" alt="Image name: ${itemimage}">
 										<div class="card-body">
 											<p class="card-text"><b>${itemname}</b></p>
 											<p class="card-text">${itemdesc}</p>
@@ -66,7 +66,7 @@ function displayAllProducts(ContentPage)
 			itemcost = info.items[i].cost;
 			itemimage =info.items[i].image;
 				content += `<div class="card col-md-4" style="width: 18rem;">
-								<img class="card-img-top" src="..." alt="Image name: ${itemimage}">
+								<img class="card-img-top" src="images/${itemimage}" alt="Image name: ${itemimage}">
 								<div class="card-body">
 									<p class="card-text"><b>${itemname}</b></p>
 									<p class="card-text">${itemdesc}</p>

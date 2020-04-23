@@ -34,13 +34,18 @@
 			$itemdesc = $lipsum->words($randdesc);
 			echo("Description: " . $itemdesc);
 			echo("<br>");
-
 			
+			//random image2wbmp
+			$randImage = rand(0, count($filenames));
+			$itemimage = $filenames[$randImage];
+			echo("Image name: " . $itemimage);
+			echo("<br>");
+				
 			//$query = "insert into items (iname, iDesc, iCost) values (" . $itemname . "," . $itemdesc ."," . $itemcost . ")";
 			//echo("<br>Query: " . $query);
-			$statement = $connection->prepare("insert into items (iname, iDesc, iCost) values (?,?,?)");
+			$statement = $connection->prepare("insert into items (iname, iDesc, iCost,iImage) values (?,?,?,?)");
 			echo("<br>prepared");
-			$statement->bind_param("ssd", $itemname, $itemdesc, $itemcost);
+			$statement->bind_param("ssds", $itemname, $itemdesc, $itemcost, $itemimage);
 			echo("<br>bound");
 			$statement->execute();
 			echo("<br>excuted");
