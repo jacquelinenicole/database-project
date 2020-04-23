@@ -227,7 +227,7 @@ function getRandomItemsForHomepage() {
 			{
 				itemid = info[i].id;
 				itemname = info[i].name;
-				itemdesc = temp //info[i].desc;
+				itemdesc = "temp" //info[i].desc;
 				itemcost = info[i].cost;
 				itemimage = "images/" + info[i].image;
 				itemimagename = info[i].image;
