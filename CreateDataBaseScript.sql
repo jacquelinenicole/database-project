@@ -60,7 +60,7 @@ insert into items (iname, icost, iImage) values ('Pencil', 0.53, 'pencil.jpg' );
 insert into items (iname, icost, iImage) values ('Eraser', 0.73, 'eraser.jpg' );
 insert into items (iname, icost, iImage) values ('Paper', 1.50, 'paper.jpg' );
 
-insert into formula (ftimeLeft,fquantityStep,fdiscountStep, fmaxDiscount) values ( 10, 5, 8.0, 40.0);
+insert into formula (ftimeLeft,fquantityStep,fdiscountStep, fmaxDiscount,fStepType,fMaxType) values ( 10, 5, 8.0, 40.0, '%', '%');
 
 insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'dXc17sP', '2020-4-10','2020-4-30');
 insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (2,1, 'aaaaa', '2020-1-10', '2020-1-15');
