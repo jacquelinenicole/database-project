@@ -67,6 +67,8 @@ insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'd
 insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (2,1, 'aaaaa', '2020-1-10', '2020-1-15');
 
 insert into orders (odiscount_id, oitem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (1,1,10, 'PencilMan', '555-5555', 'pencilman@pencils.com');
+insert into orders (odiscount_id, oitem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (1,1,15, 'PencilMan2', '555-5555', 'pencilman@pencils.com');
+insert into orders (odiscount_id, oitem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (1,1,30, 'PencilMan3', '555-5555', 'pencilman@pencils.com');
 select * from items;
 select * from formula;
 select * from discount;
