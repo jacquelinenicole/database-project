@@ -51,7 +51,8 @@
 	  					</div>
 	  					<div class="form-group">
 							<label for="input-item-price">Price</label>
-	    					<input type="text" class="form-control" id="input-item-price" placeholder="1.75">
+	    					<input type="text" class="form-control" id="input-item-price" placeholder="1.75"
+	    					onkeypress="return validateMoney(event, this, 'input-item-price');">
 	  					</div>
 	  					<div class="form-group">
 							<label for="input-item-description">Description</label>
