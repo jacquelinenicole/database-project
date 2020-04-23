@@ -25,7 +25,7 @@ if($num>0){
     // products array
     $products_arr=array();
     $products_arr["records"]=array();
-  
+
     // retrieve our table contents
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         // extract row
@@ -39,21 +39,26 @@ if($num>0){
             "cost" => $iCost,
             "image" => $iImage
         );
-  
+    
         array_push($products_arr["records"], $product_item);
     }
 
     $random_products_arr=array();
     $random_products_arr["records"]=array();
 
-    $max = sizeof($random_products_arr);
-    $rand_val = rand(0, $max);
-  
+    $rand_keys = array_rand($products_arr["records"], 4);
+
+    array_push($random_products_arr, $products_arr["records"][$rand_keys[0]]);
+    array_push($random_products_arr, $products_arr["records"][$rand_keys[1]]);
+    array_push($random_products_arr, $products_arr["records"][$rand_keys[2]]);
+    array_push($random_products_arr, $products_arr["records"][$rand_keys[3]]);
+    
+
     // set response code - 200 OK
     http_response_code(200);
   
     // show products data in json format
-    echo json_encode($products_arr[$rand_val]);
+    echo json_encode($random_products_arr);
 }
 else{
   
