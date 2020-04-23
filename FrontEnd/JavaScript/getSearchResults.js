@@ -104,7 +104,7 @@ function gen_code(itemid)
 			
 			if(info.code !== 'undefined')
 			{
-				alert("your code is! " + info.code);
+				alert("Your Discount Code is: " + info.code);
 			}
 		}
 	}
@@ -135,8 +135,6 @@ function displayShoppingCart(ContentPage) {
 
            
     var message = `{"foo" : "getCart"}`;
-
-
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         console.log(this.responseText);
@@ -225,7 +223,7 @@ function getRandomItemsForHomepage() {
 			var itemname, itemdesc, itemcost, itemimage, itemimagename;
 			for(i in info)
 			{
-				itemid = info[i].id;
+				itemid = info[i].num;
 				itemname = info[i].name;
 				itemdesc = info[i].desc;
 				itemcost = info[i].cost;
@@ -238,7 +236,7 @@ function getRandomItemsForHomepage() {
 									<p class="card-text">${itemdesc}</p>
 									<p class="card-text">$${itemcost}</p>
 									<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
-									<button type="button" class="btn btn-success" onClick="addtoCart(${itemid}, 1)">Add to Cart</button>
+									<button type="button" class="btn btn-success" onclick="addtoCart(${itemid}, 1)">Add to Cart</button>
 								</div>
 							</div>`;
 			}
