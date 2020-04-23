@@ -31,7 +31,7 @@ function getSearchResults(searchTextId, mainContentPage) {
 											<p class="card-text"><b>${itemname}</b></p>
 											<p class="card-text">${itemdesc}</p>
 											<p class="card-text">$${itemcost}</p>
-											<button type="button" class="btn btn-info">Request Discount</button>
+											<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
 											<button type="button" class="btn btn-success" onClick="addtoCart(${itemid}, 1)">Add to Cart</button>
 										</div>
 									</div>`;
@@ -71,7 +71,7 @@ function displayAllProducts(ContentPage)
 									<p class="card-text"><b>${itemname}</b></p>
 									<p class="card-text">${itemdesc}</p>
 									<p class="card-text">$${itemcost}</p>
-									<button type="button" class="btn btn-info">Request Discount</button>
+									<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
 									<button type="button" class="btn btn-success" onclick="addtoCart(${itemid}, 1)">Add to Cart</button>
 								</div>
 							</div>`;
@@ -86,6 +86,23 @@ function displayAllProducts(ContentPage)
 	xmlhttp.send();
 	
 	return;
+}
+
+function gen_code(itemid)
+{
+	var message = `{"itemid" : "${itemid}"}`;
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function ()
+	{
+		if(this.readyState == 4 && this.status == 200)
+		{
+			console.log(this.responseText);
+			var info = JSON.parse(this.responseText);
+		}
+	}
+	xmlhttp.open("POST", "../../api/get_items.php", true);
+	xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+	xmlhttp.send();
 }
 
 function addtoCart(itemid, itemquantity)

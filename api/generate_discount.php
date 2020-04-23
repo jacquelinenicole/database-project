@@ -5,7 +5,9 @@
 	$database = new Database();
 	$db = $database->mysqliConnection();
 	//$database->createSession();
-	session_start();
+	start_session();
+	
+	$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
@@ -45,8 +47,9 @@
 			
 			//get itemId
 			//get today's date
-			
-			
+
+			$response->code = generate_string($permitted_chars, 5);
+
 		}
 		echo json_encode($response);
 		exit();
