@@ -130,14 +130,16 @@ function addtoCart(itemid, itemquantity)
 }
 
 function displayShoppingCart(ContentPage) {
-    var content = ``;
+
+    var i, content = ``;
 
            
-    var message = `{"foo" : "getCart"}`; //, "id" : "${itemid}", "quantity" : "${itemquantity}"}`;
+    var message = `{"foo" : "getCart"}`;
+
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
-        console.log(this.responseText);
+        //console.log(this.responseText);
         if (this.readyState == 4 && this.status == 200) {
             var info = JSON.parse(this.responseText);
 
@@ -150,20 +152,22 @@ function displayShoppingCart(ContentPage) {
 							</div></div>`;
             }
             else {
-                var itemname, itemdesc, itemcost, itemimage, itemimagename;
+
+                var itemname, itemdesc, itemcost, itemquant, itemimage, itemimagename;
+
 
                 var firstItem = true;
 
                 for (i in info.items) {
-                    console.log(i);
                     itemid = info.items[i].id;
                     itemname = info.items[i].name;
                     itemdesc = info.items[i].desc;
                     itemquant = info.items[i].quantity;
-                    itemcost = info.items[i].cost * itemquant;
+
+                    itemcost = (info.items[i].cost * itemquant);
                     itemimage = "images/" + info.items[i].image;
-					itemimagename = info.items[i].image;
-                    
+                    itemimagename = info.items[i].image;
+
                     if (firstItem) {
                         content += `<div class="row justify-content-center" style = "margin-top: 10%;" >`;
                         firstItem = false;
@@ -184,11 +188,13 @@ function displayShoppingCart(ContentPage) {
                                 <div class="card" id="discount" style="width: 18rem;">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="discount-field" placeholder= "Enter your discount code"
+
+                                            <input type="text" class="form-control" id="discount-field-${itemid}" placeholder= "Enter your discount code"
                                             onkeypress="return validateDiscountCode(event, this);"
-    										minlength="5" maxlength="7">
+    										minlength="5" maxlength="5">
                                         </div>
-                                            <button type="button" class="btn btn-info" onclick="applyDiscount()">Apply discount</button>
+                                            <button type="button" class="btn btn-info" onclick="applyDiscount(${itemid}, document.getElementById('discount-field-${itemid}').value)">Apply discount</button>
+
                                      </div>
                                 </div></div><br>`;
                     
