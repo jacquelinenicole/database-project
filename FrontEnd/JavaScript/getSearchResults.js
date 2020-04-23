@@ -90,6 +90,7 @@ function displayAllProducts(ContentPage)
 
 function gen_code(itemid)
 {
+	console.log("gen_code() " + itemid);
 	var message = `{"itemid" : "${itemid}"}`;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function ()
@@ -98,11 +99,16 @@ function gen_code(itemid)
 		{
 			console.log(this.responseText);
 			var info = JSON.parse(this.responseText);
+			
+			if(info.code !== 'undefined')
+			{
+				alert("your code is! " + info.code);
+			}
 		}
 	}
-	xmlhttp.open("POST", "../../api/get_items.php", true);
+	xmlhttp.open("POST", "../../api/generate_discount.php", true);
 	xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
-	xmlhttp.send();
+	xmlhttp.send(message);
 }
 
 function addtoCart(itemid, itemquantity)

@@ -47,8 +47,8 @@ create table discount (
 	dItem_id integer not null,
 	dFormula_id integer,
 	dCode varchar(50),
-	dStart integer,
-	dEnd integer,
+	dStart DATE,
+	dEnd DATE,
     index (dNum),
 	unique key discount_code (dCode),
 	foreign key (dItem_id) references items(iNum)
@@ -61,7 +61,7 @@ insert into items (iname, icost, iImage) values ('Paper', 1.50, 'paper.jpg' );
 
 insert into formula (ftimeLeft,fquantityStep,fdiscountStep, fmaxDiscount) values ( 10, 5, 8.0, 40.0);
 
-insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'dXc17sP', 041320,042020);
+insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'dXc17sP', '2020-4-10','2020-4-30');
 
 insert into orders (odiscount_id, oitem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (1,1,10, 'PencilMan', '555-5555', 'pencilman@pencils.com');
 select * from items;

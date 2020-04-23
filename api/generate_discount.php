@@ -5,7 +5,7 @@
 	$database = new Database();
 	$db = $database->mysqliConnection();
 	//$database->createSession();
-	start_session();
+	session_start();
 	
 	$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	
@@ -46,6 +46,7 @@
 			}
 			
 			//get itemId
+			
 			//get today's date
 
 			$response->code = generate_string($permitted_chars, 5);
