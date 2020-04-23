@@ -15,7 +15,7 @@ function getSearchResults(searchTextId, mainContentPage) {
 		if(this.readyState == 4 && this.status == 200)
 		{
 			var info = JSON.parse(this.responseText);
-			var itemname, itemdesc, itemcost, itemimage;
+			var itemname, itemdesc, itemcost, itemimage, itemimagename;
 			for(i in info.items)
 			{
 				if(info.items[i].name.toLowerCase() === document.getElementById(searchTextId).value.toLowerCase()) 
@@ -24,9 +24,10 @@ function getSearchResults(searchTextId, mainContentPage) {
 					itemname = info.items[i].name;
 					itemdesc = info.items[i].desc;
 					itemcost = info.items[i].cost;
-					itemimage =info.items[i].image;
+					itemimage = "images/" + info.items[i].image;
+					itemimagename = info.items[i].image;
 						content += `<div class="card col-md-4" style="width: 18rem;">
-										<img class="card-img-top" src="images/${itemimage}" alt="Image name: ${itemimage}">
+										<img class="card-img-top" src="HTML/${itemimage}" alt="Image name: ${itemimagename}">
 										<div class="card-body">
 											<p class="card-text"><b>${itemname}</b></p>
 											<p class="card-text">${itemdesc}</p>
@@ -57,16 +58,17 @@ function displayAllProducts(ContentPage)
 		if(this.readyState == 4 && this.status == 200)
 		{
 			var info = JSON.parse(this.responseText);
-			var itemname, itemdesc, itemcost, itemimage;
+			var itemname, itemdesc, itemcost, itemimagename, itemimage;
 			for(i in info.items)
             {
                 itemid = info.items[i].id;
 			itemname = info.items[i].name;
 			itemdesc = info.items[i].desc;
 			itemcost = info.items[i].cost;
-			itemimage =info.items[i].image;
+			itemimage = "images/" + info.items[i].image;
+			itemimagename = info.items[i].image;
 				content += `<div class="card col-md-4" style="width: 18rem;">
-								<img class="card-img-top" src="images/${itemimage}" alt="Image name: ${itemimage}">
+								<img class="card-img-top" src="${itemimage}" alt="Image name: ${itemimagename}">
 								<div class="card-body">
 									<p class="card-text"><b>${itemname}</b></p>
 									<p class="card-text">${itemdesc}</p>
@@ -148,7 +150,7 @@ function displayShoppingCart(ContentPage) {
 							</div></div>`;
             }
             else {
-                var itemname, itemdesc, itemcost, itemimage;
+                var itemname, itemdesc, itemcost, itemimage, itemimagename;
 
                 var firstItem = true;
 
@@ -159,7 +161,8 @@ function displayShoppingCart(ContentPage) {
                     itemdesc = info.items[i].desc;
                     itemquant = info.items[i].quantity;
                     itemcost = info.items[i].cost * itemquant;
-                    itemimage = info.items[i].image;
+                    itemimage = "images/" + info.items[i].image;
+					itemimagename = info.items[i].image;
                     
                     if (firstItem) {
                         content += `<div class="row justify-content-center" style = "margin-top: 10%;" >`;
