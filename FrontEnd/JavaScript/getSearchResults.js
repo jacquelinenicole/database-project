@@ -175,7 +175,7 @@ function displayShoppingCart(ContentPage) {
                     else 
                         content += `<div class="row justify-content-center" >`;
 
-                    content += `<div class="card" id="cart-full" style="width: 20rem;">
+                    content += `<div class="card" id="cart-full" style="width: 18rem;">
                                 <img class="card-img-top" src="${itemimage}" alt="Pic of item">
                                     <div class="card-body">
                                         <p class="card-text">${itemname}</p>
@@ -185,7 +185,7 @@ function displayShoppingCart(ContentPage) {
                                         <a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
                                     </div>
                                 </div>
-                                <div class="card" id="discount" style="width: 20rem;">
+                                <div class="card" id="discount" style="width: 18rem;">
                                     <div class="card-body">
                                         <div class="form-group">
 
@@ -229,7 +229,7 @@ function removeFromCart(itemid, itemquantity) {
 }
 
 function getRandomItemsForHomepage() {
-	var html = '<h1 class="mt-5">Welcome To Our Homepage</h1>';
+	var html = '<div class="row" style="margin-top: 10%;"><h1 class="mt-5">Welcome To Our Homepage</h1>';
 	var i;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function ()
