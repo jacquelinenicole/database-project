@@ -56,9 +56,9 @@ create table discount (
 );
     
 # populate the database tables
-insert into items (iname, icost, iImage) values ('Pencil', 0.53, 'pencil.jpg' );
-insert into items (iname, icost, iImage) values ('Eraser', 0.73, 'eraser.jpg' );
-insert into items (iname, icost, iImage) values ('Paper', 1.50, 'paper.jpg' );
+insert into items (iname, iDesc, icost, iImage) values ('Pencil', 'Artisanal, seasonal, handcrafted from the finest things.', 0.53, 'pencil.jpg' );
+insert into items (iname, iDesc,icost, iImage) values ('Eraser', 'Stolen from the gods of mount Olympus to fix your mistakes.', 0.73, 'eraser.jpg' );
+insert into items (iname, iDesc,icost, iImage) values ('Paper', 'Slice and dice your foes, with our finest sharpest paper', 1.50, 'paper.jpg' );
 
 insert into formula (ftimeLeft,fquantityStep,fdiscountStep, fmaxDiscount,fStepType,fMaxType) values ( 10, 5, 8.0, 40.0, '%', '%');
 
