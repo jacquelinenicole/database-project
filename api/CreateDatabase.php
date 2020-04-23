@@ -41,7 +41,7 @@
 			do{
 				$randImage = rand(0, count($filenames));
 				$itemimage = $filenames[$randImage];
-			}while($itemimage != '.' && $itemimage != '..');
+			}while($itemimage == '.' || $itemimage == '..');
 				
 			echo("Image name: " . $itemimage);
 			echo("<br>");
