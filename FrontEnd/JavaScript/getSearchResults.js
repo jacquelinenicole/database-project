@@ -221,29 +221,28 @@ function getRandomItemsForHomepage() {
 		{
 			var info = JSON.parse(this.responseText);
 			console.log(info);
+			
 			var itemname, itemdesc, itemcost, itemimage, itemimagename;
-			for(i in info.items)
+			for(i in info)
 			{
-				if(info.items[i].name.toLowerCase() === document.getElementById(searchTextId).value.toLowerCase()) 
-                {
-                    itemid = info.items[i].id;
-					itemname = info.items[i].name;
-					itemdesc = info.items[i].desc;
-					itemcost = info.items[i].cost;
-					itemimage = "images/" + info.items[i].image;
-					itemimagename = info.items[i].image;
-					html += `<div class="card col-md-4" style="width: 18rem;">
-									<img class="card-img-top" src="${itemimage}" alt="Image name: ${itemimagename}">
-									<div class="card-body">
-										<p class="card-text"><b>${itemname}</b></p>
-										<p class="card-text">${itemdesc}</p>
-										<p class="card-text">$${itemcost}</p>
-										<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
-										<button type="button" class="btn btn-success" onClick="addtoCart(${itemid}, 1)">Add to Cart</button>
-									</div>
-								</div>`;
-				}
+				itemid = info[i].id;
+				itemname = info[i].name;
+				itemdesc = temp //info[i].desc;
+				itemcost = info[i].cost;
+				itemimage = "images/" + info[i].image;
+				itemimagename = info[i].image;
+				html += `<div class="card col-md-4" style="width: 18rem;">
+								<img class="card-img-top" src="${itemimage}" alt="Image name: ${itemimagename}">
+								<div class="card-body">
+									<p class="card-text"><b>${itemname}</b></p>
+									<p class="card-text">${itemdesc}</p>
+									<p class="card-text">$${itemcost}</p>
+									<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
+									<button type="button" class="btn btn-success" onClick="addtoCart(${itemid}, 1)">Add to Cart</button>
+								</div>
+							</div>`;
 			}
+			
 			html += "</div>";
 			document.getElementById("mainPageContainer").innerHTML = html;
 		}
