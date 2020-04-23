@@ -47,13 +47,14 @@ if($num>0){
     $random_products_arr=array();
     //$random_products_arr["records"]=array();
 
-    $rand_keys = array_rand($products_arr["records"], 4);
+    $rand_keys = array_rand($products_arr["records"], 6);
 
     array_push($random_products_arr, $products_arr["records"][$rand_keys[0]]);
     array_push($random_products_arr, $products_arr["records"][$rand_keys[1]]);
     array_push($random_products_arr, $products_arr["records"][$rand_keys[2]]);
     array_push($random_products_arr, $products_arr["records"][$rand_keys[3]]);
-    
+    array_push($random_products_arr, $products_arr["records"][$rand_keys[4]]);
+	array_push($random_products_arr, $products_arr["records"][$rand_keys[5]]);
 
     // set response code - 200 OK
     http_response_code(200);

@@ -122,18 +122,21 @@
 		$response->text .= "Function del_item(). ";
 		
 		$itemName = $transmit['item_name'];
-		
+		$response->itemDelted = $itemName;
 		$stmt = $db->prepare("DELETE from items where iname = ?");
 		$stmt->bind_param("s", $itemName);
 		
-		if($stmt->execute() && ($stmt->affected_rows > 0))
+		if($stmt->execute())
 		{
+			if($stmt->affected_rows > 0)
+				$response->rowsChanged = $stmt->affected_rows;
 			$response->status = true;
 			http_response_code(200);
 		}
 		else
 		{
 			$response->status = false;
+			$response->mysqlierror = mysqli_error($db);
 		}
 		
 		return;
@@ -256,7 +259,7 @@
 			if($stmt->num_rows() > 0)
 			{
 				$response->orders = array();
-
+				$response->status = true;
 				$response->text .= "bar. ";
 
 				$i = 0;
@@ -278,6 +281,7 @@
 			else
 			{
 				$response->text .= "no rows. ";
+				$response->status = false;
 			}
 		}
 	}

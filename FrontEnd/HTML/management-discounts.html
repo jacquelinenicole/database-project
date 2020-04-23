@@ -227,7 +227,7 @@
 				var d = new Date();
 
 				var d1 = d.getFullYear();
-				var d2 = d.getMonth();
+				var d2 = d.getMonth() + 1;
 				var d3 = d.getDate();
 
 				if (d2 < 10)
@@ -250,29 +250,41 @@
 					console.log(this.responseText);
 
 					content = "";
-
-					for(i in info.orders)
+					if(!info.status)
 					{
-						ocusname = info.orders[i].ocusname;
-						ocusphone = info.orders[i].ocusphone;
-						ocusemail = info.orders[i].ocusemail;
-
 						content += `<div class = "row justify-content-center">
-									<div class="card" style="width: 54rem;">
-										<div class="card-body">
-											<center><h6>Previous customer</h6></center>
-											<br>
-											Customer Name: ${ocusname}
-											<br>
-											Customer Phone: ${ocusphone}
-											<br>
-											Customer Email: ${ocusemail}
-											
+										<div class="card" style="width: 54rem;">
+											<div class="card-body">
+											No past orders for item
+											</div>
+										</div>
+									</div>`;
+					}
+					else
+					{
+						for(i in info.orders)
+						{
+							ocusname = info.orders[i].ocusname;
+							ocusphone = info.orders[i].ocusphone;
+							ocusemail = info.orders[i].ocusemail;
+
+							content += `<div class = "row justify-content-center">
+										<div class="card" style="width: 54rem;">
+											<div class="card-body">
+												<center><h6>Previous customer</h6></center>
+												<br>
+												Customer Name: ${ocusname}
+												<br>
+												Customer Phone: ${ocusphone}
+												<br>
+												Customer Email: ${ocusemail}
+												
+											</div>
 										</div>
 									</div>
-								</div>
-						`;
+							`;
 
+						}
 					}
 					document.getElementById('report-content').innerHTML = content;
 

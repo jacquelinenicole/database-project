@@ -170,7 +170,7 @@
 						if(confirmation.status)
 							alert("Successfully removed item");
 						else
-							alert("Unable to find item to remove");
+							alert("Unable to remove an item with an active order or discount in progress");
 					}
 				};
 				xmlhttp.open("POST", "../../api/admin.php", true);
