@@ -27,7 +27,7 @@ function getSearchResults(searchTextId, mainContentPage) {
 					itemimage = "images/" + info.items[i].image;
 					itemimagename = info.items[i].image;
 						content += `<div class="card col-md-4" style="width: 18rem;">
-										<img class="card-img-top" src="HTML/${itemimage}" alt="Image name: ${itemimagename}">
+										<img class="card-img-top" src="${itemimage}" alt="Image name: ${itemimagename}">
 										<div class="card-body">
 											<p class="card-text"><b>${itemname}</b></p>
 											<p class="card-text">${itemdesc}</p>
