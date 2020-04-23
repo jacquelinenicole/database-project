@@ -46,9 +46,11 @@
 			}
 			
 			//get itemId
-			
+			$itemid = $obj['itemid'];
 			//get today's date
-
+			$date = date("Y-m-d");
+			$response->day = $date;
+			$response->endDay = date("Y-m-d", strtotime('+20 day'));
 			$response->code = generate_string($permitted_chars, 5);
 
 		}
