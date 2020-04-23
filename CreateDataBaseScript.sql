@@ -20,18 +20,6 @@ create table items (
     index (iNum)
 );
 
-create table orders (
-    oNum integer auto_increment,
-	oDiscount_id integer,
-	oItem_id integer not null,
-	oQuantity integer,
-	oCusName varchar(30) not null,
-	oCusPhone varchar(30),
-	oCusEmail varchar(80),
-    index (oNum),
-	foreign key (oItem_id) references items(iNum)
-);
-
 create table formula (
     fNum integer auto_increment,
 	fTimeLeft integer,
@@ -56,6 +44,18 @@ create table discount (
     foreign key (dFormula_id) references formula(fnum)
 );
     
+create table orders (
+    oNum integer auto_increment,
+	oDiscount_id integer,
+	oItem_id integer not null,
+	oQuantity integer,
+	oCusName varchar(30) not null,
+	oCusPhone varchar(30),
+	oCusEmail varchar(80),
+    index (oNum),
+	foreign key (oItem_id) references items(iNum),
+    foreign key (oDiscount_id) references discount(dnum)
+); 
 # populate the database tables
 insert into items (iname, iDesc, icost, iImage) values ('Pencil', 'Artisanal, seasonal, handcrafted from the finest things.', 0.53, 'pencil.jpg' );
 insert into items (iname, iDesc,icost, iImage) values ('Eraser', 'Stolen from the gods of mount Olympus to fix your mistakes.', 0.73, 'eraser.jpg' );
