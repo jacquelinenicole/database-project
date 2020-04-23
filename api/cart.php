@@ -64,6 +64,10 @@
 					$response->text .= "get cart switch";
 					get_cart($obj);
 					break;
+				case "applyDiscount":
+					$response->text .= "add discount switch";
+					applyDiscount($obj);
+					break;
 				default:
 					$response->text .= "unable to case switch.";
 					break;
@@ -143,6 +147,7 @@
 					$response->items[$j]->desc = $desc;
 					$response->items[$j]->cost = $cost;
 					$response->items[$j]->image = $image;
+					$response->items[$j]->quantity = $_SESSION['cart'][$i]['quantity'];
 					$j++;
 					
 				}
@@ -150,5 +155,36 @@
 			
 			return;
 		}
+	}
+
+	function applyDiscount($transmit){
+		global $response, $db;
+		$response->sessionSuccess = session_start();
+		for ($i = 0; $i < count($_SESSION['cart']); $i++)
+		{
+			if ($_SESSION['cart'][$i]['id'] == $transmit['itemid'])
+			{
+				
+				$stmt = $db->prepare("Select * from discount d where d.dCode = ? and d.dItem_id = ?;");
+
+				$stmt->bind_param("ss", $transmit['code'], $transmit['itemid']);
+				$stmt->execute();
+			
+				$stmt->bind_result($dNum, $dItem_id, $dFormula_id, $dCode, $dStart, $dEnd);
+				$stmt->store_result();
+				 
+				if($stmt->num_rows() > 0)
+				{
+					
+					$_SESSION['cart'][$i]['discountId'] = $transmit['code'];
+					$response->discountApplied = true;
+					return;
+				}
+
+				$response->discountApplied = false;
+				return;
+			}
+		}
+
 	}
 ?>
