@@ -122,6 +122,8 @@ function addtoCart(itemid, itemquantity)
     xmlhttp.onreadystatechange = function () {
         console.log(this.responseText);
         var info = JSON.parse(this.responseText);
+		
+        alert("You've successfully added this item to your cart!");
     }
     xmlhttp.open("POST", "../../api/cart.php", true);
     xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
