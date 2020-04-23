@@ -212,7 +212,7 @@ function displayShoppingCart(ContentPage) {
 }
 
 function getRandomItemsForHomepage() {
-	var html = '<div class="row" style="margin-top: 10%;"><h1 class="mt-5">Welcome To Our Homepage</h1>';
+	var html = '<div class="row" style="margin-top: 10%;"><h1 class="mt-5">Welcome To Our Homepage</h1></div><div class="row" >';
 	var i;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function ()
