@@ -68,6 +68,10 @@
 					$response->text .= "add discount switch";
 					applyDiscount($obj);
 					break;
+				case "removeItem":
+					$response->text .= " remove from cart switch. ";
+					remove_item($obj);
+					break;
 				default:
 					$response->text .= "unable to case switch.";
 					break;
@@ -92,8 +96,14 @@
 		{
 			if ($_SESSION['cart'][$i]['id'] == $transmit['id'])
 			{
-				$response->arraySet = "true";
-				$_SESSION['cart'][$i]['quantity'] += $transmit['quantity'];
+				if($_SESSION['cart'][$i]['valid']){
+					$response->arraySet = "true";
+					$_SESSION['cart'][$i]['quantity'] += $transmit['quantity'];
+				}
+				else {
+					$_SESSION['cart'][$i]['valid'] = true;
+					$_SESSION['cart'][$i]['quantity'] = $transmit['quantity'];
+				}
 				$found = true;
 				break;
 			}
@@ -103,16 +113,17 @@
 			$item = array();
 			$item['id'] = intval($transmit['id']);
 			$item['quantity'] = intval($transmit['quantity']);
+			$item['valid'] = true;
 			array_push($_SESSION['cart'], $item);
 		}
-		$response->session = $_SESSION['cart'];
+		$response->cart = $_SESSION['cart'];
 
 	}
 
 	function get_cart($transmit)
 	{
 		global $db, $response;
-
+		$j = 0;
 		$response->sessionSuccess = session_start();
 		$response->test =isset($_SESSION['cart']);
 		$empty = isset($_SESSION['cart']) ? false : true;
@@ -125,9 +136,16 @@
 		else {
 			$response->emptyCart = false;
 			$response->items = array(array());
-			$j = 0;
+			
 			for ($i = 0; $i < count($_SESSION['cart']); $i++ )
 			{
+				if (!$_SESSION['cart'][$i]['valid'])
+				{
+					$response->invalid = true;
+					continue;
+				}
+
+				$response->invalid = false;
 				$stmt = $db->prepare("Select * from items i where i.iNum = (?);");
 				$stmt->bind_param("i", $_SESSION['cart'][$i]['id']);
 				$stmt->execute();
@@ -152,6 +170,9 @@
 					
 				}
 			}
+
+			if ($j == 0)
+				$response->emptyCart = true;
 			
 			return;
 		}
@@ -186,5 +207,38 @@
 			}
 		}
 
+	}
+
+	function remove_item($transmit)
+	{
+		global $db, $response;
+		$response->text .= "Made it to remove_item in cart.php. ";
+		$response->sessionSuccess = session_start();
+		
+		
+
+		for ($i = 0; $i < count($_SESSION['cart']); $i++ )
+		{
+			if ($_SESSION['cart'][$i]['id'] == $transmit['id'])
+			{
+				if ($_SESSION['cart'][$i]['valid'])
+				{
+					$_SESSION['cart'][$i]['quantity'] -= $transmit['quantity'];
+					if ($_SESSION['cart'][$i]['quantity'] < 1)
+						$_SESSION['cart'][$i]['valid'] = false;
+					
+				}
+				else{
+					$response->text .= "error, reached unreachable statement in remove_item of cart.php .";
+				}
+
+				break;
+			}
+		}
+		if (!$found){
+			$response->text .= "error, failed to find Item in remove_item of cart.php ";
+		}
+		$response->cart = $_SESSION['cart'];
+		
 	}
 ?>
