@@ -205,14 +205,19 @@
 					$response->orders[$i]->itemName = $itemResults[0];
 					$response->orders[$i]->itemPrice = $itemResults[1];
 					$response->orders[$i]->quantity = $quantity;
-					//discount info here
-					$discountResults = get_discount_info($discount_id);
+					//formula info here
+					$discountResults = get_formula_info($discount_id);
 					$response->orders[$i]->discountId = $discount_id;
 					$response->orders[$i]->discountQs = $discountResults[0];
 					$response->orders[$i]->discountDs = $discountResults[1];
 					$response->orders[$i]->discountMd = $discountResults[2];
 					$response->orders[$i]->discountsT = $discountResults[3];
 					$response->orders[$i]->discountmT = $discountResults[4];
+					
+					//get discount info here
+					$dateArr = get_discount_info($discount_id);
+					$response->orders[$i]->startdate = $dateArr[0];
+					$response->orders[$i]->enddate = $dateArr[1];
 					
 					$i++;
 				}
@@ -266,6 +271,34 @@
 	}
 	
 	function get_discount_info($discountId)
+	{
+		global $db;
+		$ret_info = array();
+		
+		$stmt = $db->prepare("select * from discount where dnum = ?;");
+		$stmt->bind_param("i", $discountId);
+		if($stmt->execute())
+		{
+			$stmt->bind_result($dnum, $ditem, $dformula, $dcode, $dstart, $dend);
+			$stmt->store_result();
+			
+			if($stmt->num_rows() > 0 )
+			{
+				while($stmt->fetch())
+				{
+					array_push($ret_info, $dstart, $dend);
+				}
+			}
+		}
+		else
+		{
+			array_push($ret_info, "No Discount");
+		}
+		
+		return $ret_info;
+	}
+	
+	function get_formula_info($discountId)
 	{
 		global $db;
 		$ret_info = array();
