@@ -36,12 +36,14 @@
 				<form>
 					<div class="form-group">
 						<label for="input-item-count">Increase discount value each time this many items are purchased</label>
-						<input type="text" class="form-control" id="input-item-count" placeholder="50">
+						<input type="text" class="form-control" id="input-item-count" placeholder="50"
+						onkeypress="return validateDigit(event, this);">
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="input-discount-value">Save this much each time</label>
-							<input type="text" class="form-control" id="input-discount-value" placeholder="1.25">
+							<input type="text" class="form-control" id="input-discount-value" placeholder="1.25"
+							onkeypress="return validateMoney(event, this, 'input-discount-value');">
 				    	</div>
 				    	<div class="form-group col-md-6">
 				    		<label for="input-discount-type">Discount Type</label>
@@ -53,7 +55,8 @@
 						</div>
 						<div class="form-group col-md-6">
 							<label for="input-discount-max">Maximum amount each customer can save</label>
-							<input type="text" class="form-control" id="input-discount-max" placeholder="8.75">
+							<input type="text" class="form-control" id="input-discount-max" placeholder="8.75"
+							onkeypress="return validateMoney(event, this, 'input-discount-max');">
 				    	</div>
 				    	<div class="form-group col-md-6">
 				    		<label for="input-max-type">Maximum Type</label>

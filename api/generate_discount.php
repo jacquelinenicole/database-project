@@ -5,7 +5,9 @@
 	$database = new Database();
 	$db = $database->mysqliConnection();
 	//$database->createSession();
-	start_session();
+	session_start();
+	
+	$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
@@ -44,9 +46,54 @@
 			}
 			
 			//get itemId
+			$itemid = $obj['itemid'];
 			//get today's date
+			$startdate = date("Y-m-d");
+			//all discounts expire in 20 days, for reasons
+			$enddate = date("Y-m-d", strtotime('+20 day'));
+			//unique alphanumeric string for the discount
+			$code = generate_string($permitted_chars, 5);
 			
+			$response->day = $startdate;
+			$response->endDay = $enddate;
+			$response->code = $code;
 			
+			//get latest formula
+			$stmt = $db->prepare("select MAX(fnum) from formula;");
+			if($stmt->execute())
+			{
+				$stmt->bind_result($fnum);
+				$stmt->store_result();
+				
+				if($stmt->num_rows() > 0)
+				{
+					$response->status = true;
+					while($stmt->fetch())
+					{
+						$formula = $fnum;
+					}
+				}
+			}
+			else
+			{
+				$response->text .= " failed to find a formula. ";
+			}
+			$response->fnum = $formula;
+			//insert new discount
+			
+			$stmt2 = $db->prepare("insert into discount (dItem_id, dFormula_id, dCode, dStart, dEnd) values (?,?,?,?,?);");
+			$stmt2->bind_param("iisss", $itemid, $formula, $code, $startdate, $enddate);
+			
+			if($stmt2->execute())
+			{
+				$response->status = true;
+			}
+			else
+			{
+				$response->status = false;
+				$response->text .= " failed to insert discount";
+			}
+
 		}
 		echo json_encode($response);
 		exit();

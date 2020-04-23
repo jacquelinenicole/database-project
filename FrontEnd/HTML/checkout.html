@@ -40,32 +40,64 @@
 				<form>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<input type="text" class="form-control" id="first-name" placeholder="First Name">
+							<label for="first-name">First Name</label>
+							<input type="text" class="form-control" id="first-name" placeholder="Alexander">
 				    	</div>
 						<div class="form-group col-md-6">
-							<input type="text" class="form-control" id="last-name" placeholder="Last Name">
+							<label for="last-name">Last Name</label>
+							<input type="text" class="form-control" id="last-name" placeholder="Cartwright">
 				    	</div>
 				    	<div class="form-group col-md-6">
-							<input type="text" class="form-control" id="email" placeholder="Email">
+							<label for="email">Email Address</label>
+							<input type="text" class="form-control" id="email" placeholder="a.cartwright@ucf.edu">
 				    	</div>
 				    	<div class="form-group col-md-6">
-							<input type="text" class="form-control" id="phone" placeholder="Phone Number">
+							<label for="phone">Phone Number</label>
+							<input type="tel" class="form-control" id="phone" placeholder="(XXX) XXX-XXXX"
+							minlength = "14"
+							maxlength = "14"
+							onkeydown="return validateDigit(event, this, 'phone');"
+							onkeyup="formatPhone(event, this)">
 				    	</div>
 					</div>
-					<div class="form-group">
-							<input type="text" class="form-control" id="address" placeholder="Full Address">
-					</div>
-
 					<div class="form-row">
-
+						<div class="form-group col-md-4">
+							<label for="street-address">Street Address</label>
+							<input type="text" class="form-control" id="street-address" placeholder="4000 Central Florida Blvd">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="city">City</label>
+							<input type="text" class="form-control" id="city" placeholder="Orlando">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="state">State</label>
+							<input type="text" class="form-control" id="state" placeholder="FL">
+						</div>
+						<div class="form-group col-md-2">
+							<label for="zip">Zip Code</label>
+							<input type="text" class="form-control" id="zip" placeholder="32816"
+							onkeydown="return validateDigit(event, this, 'zip');">
+						</div>
+					</div>
+					<div class="form-row">
 						<div class="form-group col-md-6">
-							<input type="text" class="form-control" id="ccn" placeholder="Credit Card Number">
+							<label for="ccn">Credit Card Number</label>
+							<input type="text" class="form-control" id="ccn" placeholder="XXXX XXXX XXXX XXXX"
+							 minlength = "19" maxlength = "19"
+							 onkeydown="return validateCreditCardNumber(event, this, 'ccn');">
 				    	</div>
 				    	<div class="form-group col-md-3">
-							<input type="text" class="form-control" id="expiration-date" placeholder="Expiration Date">
+							<label for="expiration-date">Expiration Date</label>
+							<input type="text" class="form-control" id="expiration-date" placeholder="MM/YY"
+							minlength="5"
+							maxlength="5"
+							onkeydown="return validateExpirationDate(event, this, 'expiration-date');">
 				    	</div>
 				    	<div class="form-group col-md-3">
-							<input type="text" class="form-control" id="security-code" placeholder="Security Code">
+							<label for="security-code">CVV</label>
+							<input type="password" class="form-control" id="security-code" placeholder="XXX"
+							minlength = "3" maxlength = "4"
+							onkeypress="return validateDigit(event, this);">
 				    	</div>
 				    </div>
 					<a href="./shopping-cart.html"><button class="btn btn-danger" type="button">Back</button></a>
@@ -96,23 +128,118 @@
 			}
 
 			function getPhone() {
-				return document.getElementById("phone").value;
+				return stripNonDigits(document.getElementById("phone").value);
 			}
 
-			function getAddress() {
-				return document.getElementById("address").value;
+			function getStreetAddress() {
+				return document.getElementById("street-address").value;
+			}
+
+			function getCity() {
+				return document.getElementById("city").value;
+			}
+
+			function getState() {
+				return document.getElementById("state").value;
+			}
+			
+			function getZip() {
+				return document.getElementById("zip").value;
+			}
+
+			function getAddress(streetAddress, city, state, zip) {
+				return streetAddress + ", " + city + ", " + state + " " + zip;
 			}
 
 			function getCreditCard() {
-				return document.getElementById("ccn").value;
+				return stripNonDigits(document.getElementById("ccn").value);
 			}
 
 			function getExpiration() {
-				return document.getElementById("expiration-date").value;
+				return stripNonDigits(document.getElementById("expiration-date").value);
 			}
 
 			function getSecurityCode() {
 				return document.getElementById("security-code").value;
+			}
+
+			function formatPhone(event) {
+			    var key = window.event ? event.keyCode : event.which;
+				var current = document.getElementById("phone").value;
+				var digits = stripNonDigits(document.getElementById("phone").value);
+				var formatted = "";
+				if (digits.length > 0) {
+					formatted += '(';
+				}
+
+				formatted += digits.substring(0,3);
+
+				if (digits.length >= 3) {
+					formatted += ") ";
+				}
+
+				formatted += digits.substring(3,6);
+
+				if (digits.length >= 6) {
+					formatted += '-';
+				}
+
+				formatted += digits.substring(6);
+
+				if (key == 8) {
+					while (formatted.length > 0 && formatted.charAt(formatted.length-1) < '0' || formatted.charAt(formatted.length-1) > '9') {
+						formatted = formatted.substring(0, formatted.length-1);
+					}
+				}
+
+				document.getElementById("phone").value = formatted;
+			}
+
+			function validateCreditCardNumber(event, t, id) {
+				if (!validateDigit(event, t)) {
+					return false;
+				}
+
+			    var key = window.event ? event.keyCode : event.which;
+			    var prevInput = document.getElementById(id).value;
+			    var length = prevInput.length;
+			    if (key == 8) {
+			    	// remove num so space gets removed on key up
+			    	if (length%5 == 1) {
+			    		document.getElementById(id).value = prevInput.substring(0, length-1);
+			    	}
+			    } 
+
+			    // add space
+			    else if (length%5 == 4 && length < 19) {
+			    	document.getElementById(id).value += ' ';
+			    }
+
+			    return true;
+			}
+
+			function validateExpirationDate(event, t, id) {
+				if (!validateDigit(event, t)) {
+					return false;
+				}
+
+			    var key = window.event ? event.keyCode : event.which;
+			    var prevInput = document.getElementById(id).value;
+			    var length = prevInput.length;
+			    
+			    if (key == 8) {
+			    	// remove num here so / gets removed on key up
+			    	if (length == 4) {
+			    		document.getElementById(id).value = prevInput.substring(0, length-1);
+			    	}
+			    } 
+
+			    // add /
+			    else if (prevInput.length == 2) {
+			    	document.getElementById(id).value += '/';
+			    }
+
+			    return true;
 			}
 
 			function checkout() {
@@ -120,10 +247,14 @@
 				var lastName = getLastName();
 				var email = getEmail();
 				var phone = getPhone();
-				var address = getAddress();
 				var creditCard = getCreditCard();
 				var expirationDate = getExpiration();
 				var securityCode = getSecurityCode();
+				var streetAddress = getStreetAddress();
+				var city = getCity();
+				var state = getState();
+				var zip = getZip();
+				var address = getAddress(streetAddress, city, state, zip);
 
 				var emptyFields = [];
 				if (firstName == "") {
@@ -138,15 +269,27 @@
 					emptyFields.push("email");
 				}
 
-				if (phone == "") {
+				if (streetAddress == "") {
+					emptyFields.push("street address");
+				}
+
+				if (city == "") {
+					emptyFields.push("city");
+				}
+
+				if (state == "") {
+					emptyFields.push("state");
+				}
+
+				if (zip == "") {
+					emptyFields.push("zip code");
+				}
+
+				if (phone < 10) {
 					emptyFields.push("phone number");
 				}
 
-				if (address == "") {
-					emptyFields.push("address");
-				}
-
-				if (creditCard == "") {
+				if (creditCard.length < 16) {
 					emptyFields.push("credit card number");
 				}
 
@@ -154,7 +297,7 @@
 					emptyFields.push("credit card expiration date");
 				}
 
-				if (securityCode == "") {
+				if (securityCode.length < 3) {
 					emptyFields.push("credit card security code");
 				}
 
