@@ -41,7 +41,7 @@ create table discount (
     index (dNum),
 	unique key discount_code (dCode),
 	foreign key (dItem_id) references items(iNum),
-    foreign key (dFormula_id) references formula(fnum)
+    foreign key (dFormula_id) references formula(fNum)
 );
     
 create table orders (
@@ -54,7 +54,7 @@ create table orders (
 	oCusEmail varchar(80),
     index (oNum),
 	foreign key (oItem_id) references items(iNum),
-    foreign key (oDiscount_id) references discount(dnum)
+    foreign key (oDiscount_id) references discount(dNum)
 ); 
 # populate the database tables
 insert into items (iname, iDesc, icost, iImage) values ('Pencil', 'Artisanal, seasonal, handcrafted from the finest things.', 0.53, 'pencil.jpg' );
