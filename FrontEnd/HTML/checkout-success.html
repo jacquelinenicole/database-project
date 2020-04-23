@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
@@ -7,7 +7,7 @@
 		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 
-	<body>
+	<body onload="displayMessage('thank-you-message')">
 		<header class = "row">
 			<!-- Fixed navbar -->
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -41,8 +41,7 @@
 				<!-- Show order number -->
 				<div class="card" id="cart-full" style="width: 18rem;">
 					<div class="card-body">
-					  <p class="card-text">Thank you for purchasing ---item---! Your order number is ---X---. The discount applied will expire on
-					  ---day coupon expires--, at which point you can use this order number to view your discount.</p>
+					  <p class="card-text" id="thank-you-message"></p>
 					</div>
 				</div>
 			</div>
@@ -57,9 +56,37 @@
 		<script src="../JS/helper.js"></script> 
 
 		<script>
-			function displayMessage() {
+			function displayMessage(ContentPage) {
+                var i, content = ``;
 
-			}
+           
+                var message = `{"foo" : "getCheckout"}`;
+
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    console.log(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        var info = JSON.parse(this.responseText);
+
+
+                        var itemname, ordernumber, expiration;
+
+                        itemname = info.itemname;
+                        ordernumber = info.ordernum;
+                        expiration = info.expiration;
+                        
+                        content += `Thank you for purchasing ${itemname}! Your order number is ${ordernumber}. The discount applied will expire on
+					                ${expiration}, at which point you can use this order number to view your discount.`;
+                        document.getElementById(ContentPage).innerHTML = content;
+
+                    }
+                }
+                xmlhttp.open("POST", "../../api/cart.php", true);
+                xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+                xmlhttp.send(message);
+                return;
+            }
 		</script>
 	</body>
 </html>

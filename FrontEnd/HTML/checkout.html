@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
@@ -255,7 +255,11 @@
 				var state = getState();
 				var zip = getZip();
 				var address = getAddress(streetAddress, city, state, zip);
+                var name = firstName + " " + lastName;
 
+                /*var message = `{"foo" : "checkout", "id" : "${itemid}", "quantity" : "${itemquantity}", "name": "${name}", "email" : "${email}" ,
+                                 "phone" : "${phone}", "card" : "${creditCard}", "expiration" : "${expirationDate}", "secCode" : "${securityCode}", "street" : "${streetAddress}",
+                                 "city" : "${city}", "state" : "${state}", "zip" : "${zip}", "address" : "${creditCard}"}`;*/
 				var emptyFields = [];
 				if (firstName == "") {
 					emptyFields.push("first name");
@@ -306,6 +310,21 @@
 					return;
 				}
 
+                /*var message = `{"foo" : "checkout", "id" : "${itemid}", "quantity" : "${itemquantity}", "name": "${name}", "email" : "${email}" ,
+                                 "phone" : "${phone}", "card" : "${creditCard}", "expiration" : "${expirationDate}", "secCode" : "${securityCode}", "street" : "${streetAddress}",
+                                 "city" : "${city}", "state" : "${state}", "zip" : "${zip}", "address" : "${creditCard}"}`;*/
+                var message = `{"foo" : "checkout", "name": "${name}", "email" : "${email}" ,  "phone" : "${phone}"}`;
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    console.log(this.responseText);
+                    var info = JSON.parse(this.responseText);
+       
+                }
+                xmlhttp.open("POST", "../../api/cart.php", true);
+                xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+                xmlhttp.send(message);
+                
 				window.location = "./checkout-success.html"
 			}
 		</script>

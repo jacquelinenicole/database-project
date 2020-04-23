@@ -182,7 +182,7 @@ function displayShoppingCart(ContentPage) {
                                         <p class="card-text">Quantity: ${itemquant}</p>
                                         <p class="card-text">$${itemcost}</p>
                                         <button type="button" class="btn btn-danger" onclick="removeFromCart(${itemid}, 1)">Remove</button>
-                                        <a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
+                                        <a href="./checkout.html"><button type="button" class="btn btn-success" onClick="queueCheckout(${itemid})">Proceed to Checkout</button></a>
                                     </div>
                                 </div>
                                 <div class="card" id="discount" style="width: 18rem;">
@@ -228,44 +228,17 @@ function removeFromCart(itemid, itemquantity) {
     location.reload();
 }
 
-function getRandomItemsForHomepage() {
-	var html = '<div class="row" style="margin-top: 10%;"><h1 class="mt-5">Welcome To Our Homepage</h1>';
-	var i;
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function ()
-	{
-		if(this.readyState == 4 && this.status == 200)
-		{
-			var info = JSON.parse(this.responseText);
-			console.log(info);
-			var itemname, itemdesc, itemcost, itemimage, itemimagename;
-			for(i in info.items)
-			{
-				if(info.items[i].name.toLowerCase() === document.getElementById(searchTextId).value.toLowerCase()) 
-                {
-                    itemid = info.items[i].id;
-					itemname = info.items[i].name;
-					itemdesc = info.items[i].desc;
-					itemcost = info.items[i].cost;
-					itemimage = "images/" + info.items[i].image;
-					itemimagename = info.items[i].image;
-					html += `<div class="card col-md-4" style="width: 18rem;">
-									<img class="card-img-top" src="${itemimage}" alt="Image name: ${itemimagename}">
-									<div class="card-body">
-										<p class="card-text"><b>${itemname}</b></p>
-										<p class="card-text">${itemdesc}</p>
-										<p class="card-text">$${itemcost}</p>
-										<button type="button" class="btn btn-info" onClick="gen_code(${itemid})">Request Discount</button>
-										<button type="button" class="btn btn-success" onClick="addtoCart(${itemid}, 1)">Add to Cart</button>
-									</div>
-								</div>`;
-				}
-			}
-			html += "</div>";
-			document.getElementById("mainPageContainer").innerHTML = html;
-		}
-	}
-	xmlhttp.open("POST", "../../api/product/random.php", true);
-	xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
-	xmlhttp.send();
+function queueCheckout(itemid) {
+    var message = `{"foo" : "queueCheckout", "id" : "${itemid}"}`;
+
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        console.log(this.responseText);
+        var info = JSON.parse(this.responseText);
+
+    }
+    xmlhttp.open("POST", "../../api/cart.php", true);
+    xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+    xmlhttp.send(message);
 }
