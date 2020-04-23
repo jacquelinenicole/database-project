@@ -139,7 +139,7 @@ function displayShoppingCart(ContentPage) {
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
-        //console.log(this.responseText);
+        console.log(this.responseText);
         if (this.readyState == 4 && this.status == 200) {
             var info = JSON.parse(this.responseText);
 
@@ -181,7 +181,7 @@ function displayShoppingCart(ContentPage) {
                                         <p class="card-text">${itemname}</p>
                                         <p class="card-text">Quantity: ${itemquant}</p>
                                         <p class="card-text">$${itemcost}</p>
-                                        <button type="button" class="btn btn-danger" onclick="removeItem()">Remove</button>
+                                        <button type="button" class="btn btn-danger" onclick="removeFromCart(${itemid}, 1)">Remove</button>
                                         <a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
                                     </div>
                                 </div>
@@ -208,6 +208,22 @@ function displayShoppingCart(ContentPage) {
     xmlhttp.open("POST", "../../api/cart.php", true);
     xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
     xmlhttp.send(message);
-
     return;
+}
+
+function removeFromCart(itemid, itemquantity) {
+    var message = `{"foo" : "removeItem", "id" : "${itemid}", "quantity" : "${itemquantity}"}`;
+
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        console.log(this.responseText);
+        var info = JSON.parse(this.responseText);
+       
+    }
+    xmlhttp.open("POST", "../../api/cart.php", true);
+    xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+    xmlhttp.send(message);
+
+    location.reload();
 }
