@@ -26,6 +26,7 @@
 				while($stmt->fetch())
 				{
 					$response->items[$i] = new \stdClass();
+					$response->items[$i]->id = $id;
 					$response->items[$i]->name = $name;
 					$response->items[$i]->desc = $desc;
 					$response->items[$i]->cost = $cost;

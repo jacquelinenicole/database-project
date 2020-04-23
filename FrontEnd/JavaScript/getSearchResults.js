@@ -120,43 +120,77 @@ function addtoCart(itemid, itemquantity)
     xmlhttp.send(message);
     
 }
-/* CURRENTLY WORKING ON -JACKSON
-function displayShoppingCart() {
-    var i, content = '<div class="row" style="margin-top: 10%;">';
 
-    //var message = `{"foo" : "addCart", "id" : "${itemid}", "quantity" : "${itemquantity}"}`;
+function displayShoppingCart(ContentPage) {
+    var content = ``;
+
+           
+    var message = `{"foo" : "getCart"}`; //, "id" : "${itemid}", "quantity" : "${itemquantity}"}`;
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
+        console.log(this.responseText);
         if (this.readyState == 4 && this.status == 200) {
             var info = JSON.parse(this.responseText);
-            var itemname, itemdesc, itemcost, itemimage;
-            for (i in info.items) {
-                itemid = info.items[i].id;
-                itemname = info.items[i].name;
-                itemdesc = info.items[i].desc;
-                itemcost = info.items[i].cost;
-                itemimage = info.items[i].image;
-                content += `<div class="card col-md-4" style="width: 18rem;">
-								<img class="card-img-top" src="..." alt="Image name: ${itemimage}">
+
+            if (info.emptyCart) {
+                content += `<div class="row justify-content-center" style = "margin-top: 10%;" >
+                            <div class="card col-md-4" style="width: 18rem;">
 								<div class="card-body">
-									<p class="card-text"><b>${itemname}</b></p>
-									<p class="card-text">${itemdesc}</p>
-									<p class="card-text">$${itemcost}</p>
-									<button type="button" class="btn btn-info">Request Discount</button>
-									<button type="button" class="btn btn-success" onclick="addtoCart(${itemid}, 1)">Add to Cart</button>
-								</div>
-							</div>`;
+									<p class="card-text">Your shopping cart is empty.</p>
+									</div>
+							</div></div>`;
             }
-            content += "</div>";
+            else {
+                var itemname, itemdesc, itemcost, itemimage;
+
+                var firstItem = true;
+
+                for (i in info.items) {
+                    console.log(i);
+                    itemid = info.items[i].id;
+                    itemname = info.items[i].name;
+                    itemdesc = info.items[i].desc;
+                    itemquant = info.items[i].quantity;
+                    itemcost = info.items[i].cost * itemquant;
+                    itemimage = info.items[i].image;
+                    
+                    if (firstItem) {
+                        content += `<div class="row justify-content-center" style = "margin-top: 10%;" >`;
+                        firstItem = false;
+                    }
+                    else 
+                        content += `<div class="row justify-content-center" >`;
+
+                    content += `<div class="card" id="cart-full" style="width: 18rem;">
+                                <img class="card-img-top" src="${itemimage}" alt="Pic of item">
+                                    <div class="card-body">
+                                        <p class="card-text">${itemname}</p>
+                                        <p class="card-text">Quantity: ${itemquant}</p>
+                                        <p class="card-text">$${itemcost}</p>
+                                        <button type="button" class="btn btn-danger" onclick="removeItem()">Remove</button>
+                                        <a href="./checkout.html"><button type="button" class="btn btn-success">Proceed to Checkout</button></a>
+                                    </div>
+                                </div>
+                                <div class="card" id="discount" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="discount-field" placeholder="Enter your discount code">
+                                        </div>
+                                            <button type="button" class="btn btn-info" onclick="applyDiscount()">Apply discount</button>
+                                     </div>
+                                </div></div><br>`;
+                    
+                }
+            }
+            content += `</div>`;
             document.getElementById(ContentPage).innerHTML = content;
 
         }
     }
     xmlhttp.open("POST", "../../api/cart.php", true);
     xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
-    xmlhttp.send();
+    xmlhttp.send(message);
 
     return;
 }
-*/

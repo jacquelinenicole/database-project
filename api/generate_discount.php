@@ -47,9 +47,9 @@
 			
 			//get itemId
 			//get today's date
+
 			$response->code = generate_string($permitted_chars, 5);
-			
-			
+
 		}
 		echo json_encode($response);
 		exit();

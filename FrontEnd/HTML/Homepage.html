@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<meta charset="utf-8"/>
 		<title>Homepage</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,14 +28,14 @@
 					</li>
 				</ul>
 					<form class="form-inline mt-2 mt-md-0">
-						<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+						<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id = "mainPageSearchBar">
+						<button type="button" class="btn btn-outline-success my-2 my-sm-0" onClick = "getSearchResults('mainPageSearchBar','mainPageContainer')">Search</button>
 					</form>
 				</div>
 			</nav>
 		</header>
 		<!-- Begin page content -->
-		<main role="main" class="container">
+		<main role="main" class="container" id = "mainPageContainer">
 			<h1 class="mt-5">Welcome To Our Homepage</h1>
 		</main>
 		<!-- Bootstrap core JavaScript
@@ -44,5 +45,6 @@
 		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+		<script src="../JavaScript/getSearchResults.js"></script>
 	</body>
 </html>

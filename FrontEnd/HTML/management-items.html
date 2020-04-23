@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<meta charset="utf-8"/>
 		<title>SMS: Items</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../CSS/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -69,6 +70,7 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 		<script src="../CSS/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
 		<script src="../CSS/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
 		<script src="../JS/helper.js"></script> 
@@ -122,8 +124,8 @@
 					return;
 				}
 				
-				console.log("additem() activated");
-				var message = `{"foo" : "add_item", "item_name" : "${name}", "item_desc" : "${Description}", "item_cost" : "${price}", "item_image" : "${picName}"}`;
+				//console.log("additem() activated");
+				var message = `{"foo" : "add_item", "item_name" : "${name}", "item_desc" : "${description}", "item_cost" : "${price}", "item_image" : "${picName}"}`;
 				
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function()
@@ -131,8 +133,9 @@
 					if(this.readyState == 4 && this.status == 200)
 					{
 						console.log(this.responseText);
-						var other = this.responseText;
-						var response = JSON.parse(this.responseText);
+						var confirmation = JSON.parse(this.responseText);
+						if(confirmation.status)
+							alert("Successfully added Item");
 					}
 				};
 				xmlhttp.open("POST", "../../api/admin.php", true);
@@ -162,6 +165,11 @@
 					if(this.readyState == 4 && this.status == 200)
 					{
 						console.log(this.responseText);
+						var confirmation = JSON.parse(this.responseText);
+						if(confirmation.status)
+							alert("Successfully removed item");
+						else
+							alert("Unable to find item to remove");
 					}
 				};
 				xmlhttp.open("POST", "../../api/admin.php", true);
