@@ -36,6 +36,7 @@ if($num>0){
         $product_item=array(
             "num" => $iNum,
             "name" => $iName,
+			"desc" => $iDesc,
             "cost" => $iCost,
             "image" => $iImage
         );
@@ -44,7 +45,7 @@ if($num>0){
     }
 
     $random_products_arr=array();
-    $random_products_arr["records"]=array();
+    //$random_products_arr["records"]=array();
 
     $rand_keys = array_rand($products_arr["records"], 4);
 

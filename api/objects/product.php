@@ -21,7 +21,7 @@ class Product{
     
         // select all query
         $query = "SELECT
-                    p.iNum, p.iName, p.iCost, p.iImage
+                    p.iNum, p.iName, p.iDesc, p.iCost, p.iImage
                 FROM
                     " . $this->table_name . " p
                 ";
