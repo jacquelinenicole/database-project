@@ -60,9 +60,24 @@
 							onkeyup="formatPhone(event, this)">
 				    	</div>
 					</div>
-					<div class="form-group">
-						<label for="address">Full Address</label>
-						<input type="text" class="form-control" id="address" placeholder="4000 Central Florida Blvd, Orlando, FL 32816">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="street-address">Street Address</label>
+							<input type="text" class="form-control" id="street-address" placeholder="4000 Central Florida Blvd">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="city">City</label>
+							<input type="text" class="form-control" id="city" placeholder="Orlando">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="state">State</label>
+							<input type="text" class="form-control" id="state" placeholder="FL">
+						</div>
+						<div class="form-group col-md-2">
+							<label for="zip">Zip Code</label>
+							<input type="text" class="form-control" id="zip" placeholder="32816"
+							onkeydown="return validateDigit(event, this, 'zip');">
+						</div>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
@@ -116,8 +131,24 @@
 				return stripNonDigits(document.getElementById("phone").value);
 			}
 
-			function getAddress() {
-				return document.getElementById("address").value;
+			function getStreetAddress() {
+				return document.getElementById("street-address").value;
+			}
+
+			function getCity() {
+				return document.getElementById("city").value;
+			}
+
+			function getState() {
+				return document.getElementById("state").value;
+			}
+			
+			function getZip() {
+				return document.getElementById("zip").value;
+			}
+
+			function getAddress(streetAddress, city, state, zip) {
+				return streetAddress + ", " + city + ", " + state + " " + zip;
 			}
 
 			function getCreditCard() {
@@ -216,12 +247,14 @@
 				var lastName = getLastName();
 				var email = getEmail();
 				var phone = getPhone();
-				var address = getAddress();
 				var creditCard = getCreditCard();
 				var expirationDate = getExpiration();
 				var securityCode = getSecurityCode();
-
-				console.log(securityCode + " " + expirationDate + " " + creditCard + " " + phone)
+				var streetAddress = getStreetAddress();
+				var city = getCity();
+				var state = getState();
+				var zip = getZip();
+				var address = getAddress(streetAddress, city, state, zip);
 
 				var emptyFields = [];
 				if (firstName == "") {
@@ -236,12 +269,24 @@
 					emptyFields.push("email");
 				}
 
-				if (phone < 10) {
-					emptyFields.push("phone number");
+				if (streetAddress == "") {
+					emptyFields.push("street address");
 				}
 
-				if (address == "") {
-					emptyFields.push("address");
+				if (city == "") {
+					emptyFields.push("city");
+				}
+
+				if (state == "") {
+					emptyFields.push("state");
+				}
+
+				if (zip == "") {
+					emptyFields.push("zip code");
+				}
+
+				if (phone < 10) {
+					emptyFields.push("phone number");
 				}
 
 				if (creditCard.length < 16) {
