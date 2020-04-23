@@ -22,19 +22,19 @@ function alertMissingFields(missing) {
 function validateDigit(event) {
     var key = window.event ? event.keyCode : event.which;
 
-    if (key === 8) {
+    if (key === 8 || key == 9) {
         return true;
-    } else if ( key < 48 || key > 57 ) {
-        return false;
+    } else if ( (key >= 48 && key <= 57) || (key >=  96 && key <= 105)) {
+        return true;
     }
     
-    return true;
+    return false;
 }
 
 function validateFloat(event, t, id) {
     var key = window.event ? event.keyCode : event.which;
 
-    if (key === 8) {
+    if (key === 8 || key == 9) {
         return true;
     } else if (key == 46) {
         var prevInput = document.getElementById(id).value;
@@ -51,7 +51,7 @@ function validateMoney(event, t, id) {
     var prevInput = document.getElementById(id).value;
     var periodIndex = prevInput.indexOf('.');
 
-    if (key === 8) {
+    if (key === 8 || key == 9) {
         return true;
     } else if (periodIndex > -1) {
     	if (key === 46) {
@@ -69,10 +69,13 @@ function validateMoney(event, t, id) {
 function validateDiscountCode(event) {
     var permitted = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     var key = window.event ? event.keyCode : event.which;
-
-    if (key === 8) {
+    if (key === 8 || key == 9) {
         return true;
     }
 
     return permitted.includes(String.fromCharCode(key));
+}
+
+function stripNonDigits(str) {
+    return str.replace(/\D/g,'');
 }
