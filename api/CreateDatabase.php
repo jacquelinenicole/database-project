@@ -36,10 +36,16 @@
 			echo("<br>");
 			
 			//random image2wbmp
-			$randImage = rand(0, count($filenames));
-			$itemimage = $filenames[$randImage];
+			//scandir() will return . for current dir, and .. for parent dir
+			//exlcude them from possible image names
+			do{
+				$randImage = rand(0, count($filenames));
+				$itemimage = $filenames[$randImage];
+			}while($itemimage != '.' && $itemimage != '..');
+				
 			echo("Image name: " . $itemimage);
 			echo("<br>");
+			
 				
 			//$query = "insert into items (iname, iDesc, iCost) values (" . $itemname . "," . $itemdesc ."," . $itemcost . ")";
 			//echo("<br>Query: " . $query);
