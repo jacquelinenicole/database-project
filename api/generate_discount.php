@@ -5,7 +5,7 @@
 	$database = new Database();
 	$db = $database->mysqliConnection();
 	//$database->createSession();
-	start_session();
+	session_start();
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
