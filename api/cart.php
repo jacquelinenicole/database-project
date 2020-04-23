@@ -72,6 +72,18 @@
 					$response->text .= " remove from cart switch. ";
 					remove_item($obj);
 					break;
+				case "checkout":
+					$response->text .= " checkout switch. ";
+					checkout($obj);
+					break;
+				case "queueCheckout":
+					$response->text .= " queueCheckout switch. ";
+					queue_checkout($obj);
+					break;
+				case "getCheckout":
+					$response->text .= " getCheckout switch. ";
+					get_checkout($obj);
+					break;
 				default:
 					$response->text .= "unable to case switch.";
 					break;
@@ -240,5 +252,115 @@
 		}
 		$response->cart = $_SESSION['cart'];
 		
+	}
+
+	function checkout($transmit){
+		global $db, $response;
+		$response->text .= "made it to checkout in cart.php. ";
+		$response->sessionSuccess = session_start();
+		$itemId = null;
+		$itemQuantity = null;
+		$itemDiscount = null;
+		for ($i = 0; $i < count($_SESSION['cart']); $i++ )
+		{
+			if ($_SESSION['cart'][$i]['id'] == $_SESSION['checkoutId'])
+			{
+				$itemId = $_SESSION['cart'][$i]['id'];
+				$response->quantity =  $_SESSION['cart'][$i]['quantity'];
+				$itemQuantity = $_SESSION['cart'][$i]['quantity'];
+				$response->discount =  $_SESSION['cart'][$i]['discountId'];
+				$discountCode = $_SESSION['cart'][$i]['discountId'];
+			}
+		}
+		//$itemDiscount = null;
+		$stmt = $db->prepare("select dNum from discount where dCode = ?;");
+		$stmt->bind_param("s",  $discountCode);
+		if($stmt->execute())
+		{
+			$response->query1 = true;
+			$stmt->bind_result($itemDiscount);
+			$stmt->store_result();
+			$stmt->fetch();
+			$response->discountId = $itemDiscount;
+		}
+		else {
+			$response->query1 = false;
+		}
+		$stmt->close();
+		$stmt = $db->prepare("insert into orders (oDiscount_id,oItem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (?,?,?,?,?,?);");
+		$stmt->bind_param("iiisss", intval($itemDiscount), intval($itemId), intval($itemQuantity), $transmit['name'], $transmit['phone'], $transmit['email']);
+		
+		if($stmt->execute())
+		{
+			$response->status1 = true;
+			http_response_code(200);
+			
+			$stmt->close();
+			$stmt = $db->prepare("select MAX(o.oNum) from orders o;");
+
+			if($stmt->execute())
+			{
+				$stmt->bind_result($orderNum);
+				$stmt->store_result();
+				$stmt->fetch();
+				$_SESSION['ordernum'] = $orderNum;
+				$response->status2 = true;
+			}
+			else{
+				$response->status2 = false;
+			}
+		}
+		else
+		{
+			$response->status1 = false;
+		}
+		
+	}
+
+	function queue_checkout($transmit){
+		global $db, $response;
+		$response->text .= "Made it to queue_checkout in cart.php. ";
+		$response->sessionSuccess = session_start();
+
+		$_SESSION['checkoutId'] = $transmit['id'];
+		
+	}
+
+	function get_checkout($transmit)
+	{
+		global $db, $response;
+		$response->text .= "in get_checkout of cart.php. ";
+		$response->sessionSuccess = session_start();
+		
+		$stmt = $db->prepare("select i.iName, d.dEnd from orders o, discount d, items i where o.oNum = ? and o.oDiscount_id = d.dNum and o.oItem_id = i.iNum;");
+		$stmt->bind_param("i", $_SESSION['ordernum']);
+
+		if($stmt->execute())
+		{
+			$stmt->bind_result($iName, $dEnd);
+			$stmt->store_result();
+			
+			if($stmt->num_rows() > 0)
+			{
+				$stmt->fetch();
+				$response->status = true;
+				$response->itemname = $iName;
+				$response->ordernum = $_SESSION['ordernum'];
+				$response->expiration = $dEnd;
+			}
+			for ($i = 0; $i < count($_SESSION['cart']); $i++ )
+			{
+				if ($_SESSION['cart'][$i]['id'] == $_SESSION['checkoutId'])
+				{
+					$_SESSION['cart'][$i]['valid'] = false;
+				}
+			}
+		}
+		else
+		{
+			$response->status = false;
+		}
+		
+	
 	}
 ?>
