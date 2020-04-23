@@ -51,16 +51,14 @@
             function removeItem() {
 
             }
-
+            /*
             function getDiscountCode() {
                 return document.getElementById("discount-field").value;
             }
-
-            function applyDiscount() {
-                var discountCode = getDiscountCode();
-
+            */
+            function applyDiscount(item, discountCode) {
                 var emptyFields = [];
-                if (discountCode,length < 5) {
+                if (discountCode.length < 5) {
                     emptyFields.push("discount code");
                 }
 
@@ -68,6 +66,22 @@
                     alertMissingFields(emptyFields);
                     return;
                 }
+
+                var message = `{"foo" : "applyDiscount", "itemid" : "${item}", "code" : "${discountCode}"}`;
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    console.log(this.responseText);
+                    var info = JSON.parse(this.responseText);
+
+                    if (info.discountApplied)
+                        alert("Successfully applied discount code " + discountCode + " to this item!");
+                    else
+                        alert("Failed to apply discount code " + discountCode + " to this item!");
+                }
+                xmlhttp.open("POST", "../../api/cart.php", true);
+                xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+                xmlhttp.send(message);
             }
         </script>
     </body>
