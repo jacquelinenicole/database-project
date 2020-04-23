@@ -236,7 +236,50 @@
 	function suggest_report($transmit)
 	{
 		global $response, $db;
-		$response->text .+ "function suggest_report. ";
+		$response->text .= "function suggest_report. ";
+
+		$iname = $transmit['iname'];
+		$idate = $transmit['idate'];
+
+		$stmt = $db->prepare("select * from orders as o where oItem_id = (select inum from items where iname = ?) and oDiscount_id in (select dnum from discount where dEnd < ? and dItem_id = o.oItem_id )");
+		$stmt->bind_param("ss", $iname, $idate);
+
+		$response->text .= "foo. ";
+
+		if($stmt->execute())
+		{
+			$stmt->bind_result($onum, $odiscountid, $oitemid, $oquantity, $ocusname, $ocusphone, $ocusemail);
+			$stmt->store_result();
+
+			$response->text .= "foo2. ";
+
+			if($stmt->num_rows() > 0)
+			{
+				$response->orders = array();
+
+				$response->text .= "bar. ";
+
+				$i = 0;
+				while($stmt->fetch())
+				{
+					$response->orders[$i] = new \stdClass();
+					//customer info
+					$response->orders[$i]->onum = $onum;
+					$response->orders[$i]->odiscountid = $odiscountid;
+					$response->orders[$i]->oitemid = $oitemid;
+					$response->orders[$i]->oquantity = $oquantity;
+					$response->orders[$i]->ocusname = $ocusname;
+					$response->orders[$i]->ocusphone = $ocusphone;
+					$response->orders[$i]->ocusemail = $ocusemail;
+					
+					$i++;
+				}
+			}
+			else
+			{
+				$response->text .= "no rows. ";
+			}
+		}
 	}
 	
 	function get_item_info($itemId)
