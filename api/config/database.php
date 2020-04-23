@@ -3,11 +3,10 @@ class Database{
   
     // specify your own database credentials
     private $host = "127.0.0.1:3312";
-    private $db_name = "root";
+    private $db_name = "cop4710";
     private $username = "root";
-    private $password = "project3";
+    private $password = "root";
     public $conn;
-  
     // get the database connection
     public function getConnection(){
   
@@ -22,5 +21,37 @@ class Database{
   
         return $this->conn;
     }
+	
+	public function mysqliConnection()
+	{
+		$this->conn = null;
+		$this->conn = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+
+		return $this->conn;
+	}
+	
+	public function createSession()
+	{
+		if(ini_get('session.use_cookies') && isset($_COOKIE['PHPSESSID']))
+		{
+			$sessid = $_COOKIE['PHPSESSID'];
+		}
+		else if(!ini_get('session.use_only_cookies') && isset($_GET['PHPSESSID']))
+		{
+			$sessid = $_GET['PHPSESSID'];
+		}
+		else
+		{
+			session_start();
+			return false;
+		}
+		
+		if(!preg_match('/^[a-z0-9]{32}$/', $sessid))
+		{
+			return false;
+		}
+		session_start();
+		return true;
+	}
 }
 ?>
