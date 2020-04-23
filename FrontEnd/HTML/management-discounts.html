@@ -41,19 +41,12 @@
 					  <button type="button" class="btn btn-info" onclick="viewDiscountedOrders()">View discounted orders</button>
 					</div>
 				</div>
-
-				<div class="card" id="requests" style="width: 18rem;">
-					<center><h5 class="card-title">Current discount requests</h5></center>
-					<div class="card-body" id="request-area">
-					</div>
-				</div>
-
 				<div class="card" id="add-discount-field" style="width: 18rem;">
 					<div class="card-body">
 						<div class="form-group">
     						<input type="text" class="form-control" id="item-field" placeholder="Enter item name">
   						</div>
-					  <button type="button" class="btn btn-success" onclick="addDiscount()">Add discount</button>
+					  <button type="button" class="btn btn-success" onclick="viewPreviousCustomers()">View previous customers</button>
 					</div>
 				</div>
 			</div>
@@ -216,7 +209,7 @@
 				
 			}
 
-			function addDiscount() {
+			function viewPreviousCustomers() {
 				var name = getItemName();
 
 				var emptyFields = [];
@@ -228,14 +221,9 @@
 					alertMissingFields(emptyFields);
 					return;
 				}
-				
-				
+	
 			}
 
-			function viewRequests() {
-
-			}
-			
 			function calculateTotal(itemCost, itemQuantity, sumQuantity, discountStep, discountQuantity, discountMax, discountType, maxType)
 			{
 				var ret_message = "";
