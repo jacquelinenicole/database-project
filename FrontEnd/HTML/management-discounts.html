@@ -221,6 +221,67 @@
 					alertMissingFields(emptyFields);
 					return;
 				}
+
+				var xmlhttp = new XMLHttpRequest();
+
+				var d = new Date();
+
+				var d1 = d.getFullYear();
+				var d2 = d.getMonth();
+				var d3 = d.getDate();
+
+				if (d2 < 10)
+					d2 = "0" + d2;
+				var full_date = d1 + "-" + d2 + "-" + d3;
+
+				console.log(full_date);
+				
+				
+				var message = `{"foo":"suggest_report","iname":"${name}","idate":"${full_date}"}`;
+				
+				// RIGHT HERE
+				// RIGHT HERE
+				// RIGHT HERE
+				// RIGHT HERE
+				// RIGHT HERE
+
+				xmlhttp.onreadystatechange = function () {
+					var info = JSON.parse(this.responseText);
+					console.log(this.responseText);
+
+					content = "";
+
+					for(i in info.orders)
+					{
+						ocusname = info.orders[i].ocusname;
+						ocusphone = info.orders[i].ocusphone;
+						ocusemail = info.orders[i].ocusemail;
+
+						content += `<div class = "row justify-content-center">
+									<div class="card" style="width: 54rem;">
+										<div class="card-body">
+											<center><h6>Previous customer</h6></center>
+											<br>
+											Customer Name: ${ocusname}
+											<br>
+											Customer Phone: ${ocusphone}
+											<br>
+											Customer Email: ${ocusemail}
+											
+										</div>
+									</div>
+								</div>
+						`;
+
+					}
+					document.getElementById('report-content').innerHTML = content;
+
+
+				}
+
+				xmlhttp.open("POST", "../../api/admin.php", true);
+				xmlhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+				xmlhttp.send(message);
 	
 			}
 
