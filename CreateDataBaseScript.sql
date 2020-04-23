@@ -52,7 +52,8 @@ create table discount (
 	dEnd DATE,
     index (dNum),
 	unique key discount_code (dCode),
-	foreign key (dItem_id) references items(iNum)
+	foreign key (dItem_id) references items(iNum),
+    foreign key (dFormula_id) references formula(fnum)
 );
     
 # populate the database tables
@@ -62,7 +63,7 @@ insert into items (iname, iDesc,icost, iImage) values ('Paper', 'Slice and dice 
 
 insert into formula (ftimeLeft,fquantityStep,fdiscountStep, fmaxDiscount,fStepType,fMaxType) values ( 10, 5, 8.0, 40.0, '%', '%');
 
-insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'dXc17sP', '2020-4-10','2020-4-30');
+insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (1,1, 'dXc17', '2020-4-10','2020-4-30');
 insert into discount (ditem_id, dformula_id, dCode, dStart,dEnd) values (2,1, 'aaaaa', '2020-1-10', '2020-1-15');
 
 insert into orders (odiscount_id, oitem_id, oQuantity, oCusName, oCusPhone, oCusEmail) values (1,1,10, 'PencilMan', '555-5555', 'pencilman@pencils.com');
