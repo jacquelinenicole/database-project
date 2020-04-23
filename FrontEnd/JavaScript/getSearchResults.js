@@ -184,7 +184,9 @@ function displayShoppingCart(ContentPage) {
                                 <div class="card" id="discount" style="width: 18rem;">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="discount-field" placeholder="Enter your discount code">
+                                            <input type="text" class="form-control" id="discount-field" placeholder= "Enter your discount code"
+                                            onkeypress="return validateDiscountCode(event, this);"
+    										minlength="5" maxlength="5">
                                         </div>
                                             <button type="button" class="btn btn-info" onclick="applyDiscount()">Apply discount</button>
                                      </div>
